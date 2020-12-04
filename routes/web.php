@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VideosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/class/{class}', [VideosController::class, 'class'])->name('class');
+    Route::get('/chapter/{chapter}', [VideosController::class, 'chapter'])->name('chapter');
+    Route::get('/section/{section}', [VideosController::class, 'section'])->name('section');
+    Route::get('/video/{video_id}', [VideosController::class, 'video'])->name('video');
+
+    Route::get('/home', function() {
+        return view('home');
+    })->name('home');
+});

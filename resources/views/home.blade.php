@@ -21,9 +21,10 @@
             <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('受講中の講座一覧') }}
             </h3>
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-dashboard />
-            </div>
+            {{-- <x-course-card/> --}}
+            @foreach(config('const.CLASS') as $class)
+                @include('components.course-card', ['class'=>$class])
+            @endforeach
         </div>
     </div>
 
