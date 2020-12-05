@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\VideosController;
+use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', function() {
         return view('home');
     })->name('home');
+
+    Route::prefix('console')->name('console.')->middleware([CheckAdmin::class])->group(function () {
+        Route::get('/', function() {
+            return view('console.index');
+        })->name('index');
+    });
 });
