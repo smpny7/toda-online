@@ -15,13 +15,9 @@ class AddCourseRegistrationToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('math1')->default(false);
-
             $table->boolean('math2')->default(false);
-
             $table->boolean('math3')->default(false);
-
             $table->boolean('mathA')->default(false);
-
             $table->boolean('mathB')->default(false);
         });
     }

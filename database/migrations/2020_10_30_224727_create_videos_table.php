@@ -20,7 +20,7 @@ class CreateVideosTable extends Migration
             $table->string('section');
             $table->string('title');
             $table->boolean('active')->default(true);
-            $table->text('filename')->nullable()->default(null);
+            $table->text('file_path')->nullable()->default(null);
             $table->timestamps();
         });
     }

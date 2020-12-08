@@ -7,11 +7,36 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div
+                class="text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                <img class="h-16 w-16 rounded-full object-cover"
+                     src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"/>
+            </div>
+            <p>
+                @if(Auth::user()->grade > 0)
+                    {{ __(Auth::user()->grade . '年生') }}
+                @else
+                    {{ __('管理者') }}
+                @endif
+            </p>
+            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __(Auth::user()->name . ' さん') }}
+            </h3>
+        </div>
+    </div>
+
+    <div class="bg-repeat py-12" style="background-image: url({{ asset('img/home_background.png') }})">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <h3 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('次に見る') }}
             </h3>
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-dashboard />
+            {{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
+            <div>
+                {{-- とりあえず先頭から4件 --}}
+                @foreach($watch_next_videos as $video)
+                    {{ $video->title }}
+                    {{--                    @include('components.course-card', ['class'=>$class])--}}
+                @endforeach
             </div>
         </div>
     </div>
@@ -25,17 +50,6 @@
             @foreach(config('const.CLASS') as $class)
                 @include('components.course-card', ['class'=>$class])
             @endforeach
-        </div>
-    </div>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('後で見る') }}
-            </h3>
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-dashboard />
-            </div>
         </div>
     </div>
 </x-app-layout>
