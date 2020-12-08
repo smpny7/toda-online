@@ -34,8 +34,9 @@
             <div>
                 {{-- とりあえず先頭から4件 --}}
                 @foreach($watch_next_videos as $video)
-                    {{ $video->title }}
-                    {{ $video->duration }}
+                    <h3>{{ $video->title }}</h3>
+                    <p>{{ $video->duration }}</p>
+                    <img src="{{ $video->thumbnail }}" alt="{{ $video->title }}">
                     {{--                    @include('components.course-card', ['class'=>$class])--}}
                 @endforeach
             </div>
