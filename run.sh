@@ -2,7 +2,7 @@
 
 PS3='>> '
 
-select word in 'Build Docker Environment' 'Execute Bash Command'
+select word in 'Build Docker Environment' 'Execute Bash Command' 'Install FFmpeg'
 do
   case $REPLY in
     1 ) cd ./laradock
@@ -11,6 +11,11 @@ do
 
     2 ) cd ./laradock
         docker-compose exec workspace bash
+        break ;;
+
+    3 ) cd ./laradock
+        docker-compose exec php-fpm apt-get update
+        docker-compose exec php-fpm apt-get install ffmpeg
         break ;;
 
     * ) break ;;
