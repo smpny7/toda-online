@@ -28,6 +28,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/section/{section}', [VideosController::class, 'section'])->name('section');
     Route::get('/video/{video_id}', [VideosController::class, 'video'])->name('video');
 
+    Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
+
     Route::prefix('console')->name('console.')->middleware([CheckAdmin::class])->group(function () {
         Route::get('/', function() {
             return view('console.index');

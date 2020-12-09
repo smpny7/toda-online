@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Videos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -20,7 +21,7 @@ class HomeController extends Controller
                 // TODO publicディレクトリに入っているファイルは誰でもアクセスできてしまうため、公開したくないファイルの場合は別途処理が必要
                 if (!Storage::disk('local')->exists('public/thumbnail/' . $video->id . '.jpg')) {
                     FFMpeg::fromDisk('local')
-                        ->open($video->path)
+                        ->open('public/' . $video->path)
                         ->getFrameFromSeconds($video->duration)
                         ->export()
                         ->toDisk('local')

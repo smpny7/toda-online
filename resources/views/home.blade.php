@@ -31,14 +31,23 @@
                 {{ __('次に見る') }}
             </h3>
             {{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
-            <div>
-                {{-- とりあえず先頭から4件 --}}
-                @foreach($watch_next_videos as $video)
-                    <h3>{{ $video->title }}</h3>
-                    <p>{{ $video->duration }}</p>
-                    <img src="{{ $video->thumbnail }}" alt="{{ $video->title }}">
-                    {{--                    @include('components.course-card', ['class'=>$class])--}}
-                @endforeach
+
+{{--            <div class="grid grid-cols-3 gap-4">--}}
+{{--                --}}{{-- とりあえず先頭から3件 --}}
+{{--                @foreach($watch_next_videos as $video)--}}
+{{--                    <div class="bg-red-600 w-1">--}}
+{{--                        <h3>{{ $video->title }}</h3>--}}
+{{--                        <p>{{ $video->duration }}</p>--}}
+{{--                        --}}{{--                        <img src="{{ $video->thumbnail }}" alt="{{ $video->title }}">--}}
+{{--                    </div>--}}
+{{--                    --}}{{--                    @include('components.course-card', ['class'=>$class])--}}
+{{--                @endforeach--}}
+{{--            </div>--}}
+
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-red-600">1</div>
+                <div class="bg-blue-50">2</div>
+                <div class="bg-yellow-50">3</div>
             </div>
         </div>
     </div>

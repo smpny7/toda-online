@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Videos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
 {
@@ -31,6 +32,21 @@ class VideosController extends Controller
 
     public function video($video_id) {
         $video = Videos::findOrFail($video_id);
-        return view('video')->with('video', $video);
+        $video_path = Storage::disk('local')->url('public/' . $video->path);
+        return view('video')
+            ->with('video', $video)
+            ->with('video_path', $video_path);
+    }
+
+    public function protection($video_id) {
+        $video = Videos::findOrFail($video_id);
+        Log::debug('public/' . $video->path);
+
+        abort_if(!Storage::exists('public/' . $video->path), 404);
+
+        return response()->make(Storage::get('public/' . $video->path), 200, [
+            'Content-Type'        => 'video/mp4',
+            'Content-Disposition' => 'inline; filename="' . 'public/' . $video->path . '"'
+        ]);
     }
 }
