@@ -4,8 +4,6 @@
             {{ $video->title }}
         </h2>
     </x-slot>
-{{--    直リンクバージョン--}}
-{{--    <video src="{{ asset($video_path) }}" controlsList="nodownload" oncontextmenu="return false;" preload="none" controls></video>--}}
-    <video src="{{ route('protection', ['file_path' => $video->id]) }}" controlsList="nodownload" oncontextmenu="return false;" preload="none" controls></video>
+    <video src="{{ route('protection', ['video_id' => $video->id]) }}" controlsList="nodownload" oncontextmenu="return false;" preload="none" controls></video>
     <p>やっぴ</p>
 </x-app-layout>

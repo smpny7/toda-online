@@ -25,29 +25,17 @@
         </div>
     </div>
 
-    <div class="bg-repeat py-12" style="background-image: url({{ asset('img/home_background.png') }})">
+    <div class="bg-repeat py-12" style="background-image: url({{ asset('img/home-background.png') }})">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h3 class="font-semibold text-2xl text-gray-800 leading-tight">
                 {{ __('次に見る') }}
             </h3>
-            {{--            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">--}}
 
-{{--            <div class="grid grid-cols-3 gap-4">--}}
-{{--                --}}{{-- とりあえず先頭から3件 --}}
-{{--                @foreach($watch_next_videos as $video)--}}
-{{--                    <div class="bg-red-600 w-1">--}}
-{{--                        <h3>{{ $video->title }}</h3>--}}
-{{--                        <p>{{ $video->duration }}</p>--}}
-{{--                        --}}{{--                        <img src="{{ $video->thumbnail }}" alt="{{ $video->title }}">--}}
-{{--                    </div>--}}
-{{--                    --}}{{--                    @include('components.course-card', ['class'=>$class])--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-
-            <div class="grid grid-cols-3 gap-4">
-                <div class="bg-red-600">1</div>
-                <div class="bg-blue-50">2</div>
-                <div class="bg-yellow-50">3</div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 grid-rows-1 mt-4 mx-7 sm:mx-auto">
+                {{-- とりあえず先頭から3件 --}}
+                @foreach($watch_next_videos as $video)
+                    @include('components.video-card', ['video' => $video])
+                @endforeach
             </div>
         </div>
     </div>

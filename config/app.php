@@ -232,10 +232,15 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         /*
-         * Original Aliases...
+         * Additional Aliases...
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class
+        'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
+
+        /*
+         * Original Aliases...
+         */
+        'TimeConversion' => App\Utils\TimeConversion::class,
     ],
 
 ];

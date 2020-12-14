@@ -9,14 +9,23 @@ module.exports = {
 
     theme: {
         extend: {
+            colors: {
+                themeColor: '#FF9113',
+            },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+            },
+            scale: {
+                '102': '1.02',
             },
         },
     },
 
     variants: {
         opacity: ['responsive', 'hover', 'focus', 'disabled'],
+        extend: {
+            scale: ['hover'],
+        },
     },
 
     plugins: [require('@tailwindcss/ui')],
