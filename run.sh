@@ -28,7 +28,7 @@ do
 
     4 ) cd ./laradock
         docker-compose exec php-fpm apt-get update
-        docker-compose exec php-fpm apt-get install ffmpeg
+        docker-compose exec php-fpm apt-get install -y ffmpeg
         break ;;
 
     5 ) cd ./laradock
