@@ -27,11 +27,13 @@
                         <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                             {{ __('ホーム') }}
                         </x-jet-nav-link>
-                        @foreach(config('const.CLASS') as $class)
-                            <x-jet-nav-link href="{{ route('class', $class) }}"
-                                            :active="request()->is('class/{{ $class }}')">
-                                {{ $class }}
-                            </x-jet-nav-link>
+                        @foreach(config('const.CLASS') as $class_key => $class)
+                            @if(Auth::user()->$class_key)
+                                <x-jet-nav-link href="{{ route('class', $class) }}"
+                                                :active="request()->is('class/{{ $class }}')">
+                                    {{ $class }}
+                                </x-jet-nav-link>
+                            @endif
                         @endforeach
                         @if(Auth::user()->grade == 0)
                             <x-jet-nav-link href="{{ route('admin.index') }}"
@@ -169,11 +171,13 @@
                 <x-jet-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                     {{ __('ホーム') }}
                 </x-jet-responsive-nav-link>
-                @foreach(config('const.CLASS') as $class)
-                    <x-jet-responsive-nav-link href="{{ route('class', $class) }}"
-                                               :active="request()->is('class/{{ $class }}')">
-                        {{ $class }}
-                    </x-jet-responsive-nav-link>
+                @foreach(config('const.CLASS') as $class_key => $class)
+                    @if(Auth::user()->$class_key)
+                        <x-jet-responsive-nav-link href="{{ route('class', $class) }}"
+                                                   :active="request()->is('class/{{ $class }}')">
+                            {{ $class }}
+                        </x-jet-responsive-nav-link>
+                    @endif
                 @endforeach
                 @if(Auth::user()->grade == 0)
                     <x-jet-responsive-nav-link href="{{ route('admin.index') }}"
