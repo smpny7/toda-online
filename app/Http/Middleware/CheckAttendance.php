@@ -20,9 +20,10 @@ class CheckAttendance
     {
         $video_id = str_replace(url('/') . '/video/', '', url()->current());
         $video = Video::where('id', $video_id)->first();
+        if (!$video->active) abort(401);
         foreach (config('const.CLASS') as $class_key => $class) {
-            if ((bool) $class == $video->class) {
-                if(Auth::user()->$class_key)
+            if ((bool)$class == $video->class) {
+                if (Auth::user()->$class_key)
                     return $next($request);
                 else
                     abort(401);

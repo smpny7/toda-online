@@ -24,6 +24,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/search', [HomeController::class, 'search'])->name('search');
 
     Route::get('/class/{class}', [VideosController::class, 'class'])->name('class');
     Route::get('/chapter/{chapter}', [VideosController::class, 'chapter'])->name('chapter');

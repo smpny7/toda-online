@@ -27,6 +27,9 @@
                         <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                             {{ __('ホーム') }}
                         </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('search') }}" :active="request()->routeIs('search')">
+                            {{ __('検索') }}
+                        </x-jet-nav-link>
                         @foreach(config('const.CLASS') as $class_key => $class)
                             @if(Auth::user()->$class_key)
                                 <x-jet-nav-link href="{{ route('class', $class) }}"
@@ -170,6 +173,9 @@
             @else
                 <x-jet-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                     {{ __('ホーム') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('search') }}" :active="request()->routeIs('search')">
+                    {{ __('検索') }}
                 </x-jet-responsive-nav-link>
                 @foreach(config('const.CLASS') as $class_key => $class)
                     @if(Auth::user()->$class_key)

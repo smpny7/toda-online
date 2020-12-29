@@ -26,11 +26,11 @@
                 </div>
 
                 <div class="col-span-12 sm:col-span-5 lg:col-span-4 pt-4 sm:pt-13">
-                    <button
+                    <a href="{{ route('search') }}"
                         class="bg-white rounded-lg border-themeColor border-2 ml-3 sm:ml-0 px-5 md:px-2 xl:px-5 py-2">
                         <img class="inline-block w-6" src="{{ asset('img/search-button-icon.png') }}" alt="search">
                         <span class="text-themeColor font-bold tracking-widest ml-2">動画を検索</span>
-                    </button>
+                    </a>
                     <button
                         class="bg-themeColor rounded-lg border-themeColor border-2 ml-1 lg:ml-3 xl:ml-4 px-5 md:px-2 xl:px-5 py-2">
                         <img class="inline-block w-6" src="{{ asset('img/bookmark-button-icon.png') }}" alt="bookmark">

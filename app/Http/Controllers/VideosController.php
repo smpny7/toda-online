@@ -26,7 +26,7 @@ class VideosController extends Controller
     }
 
     public function section($section) {
-        $videos = Video::where('section', $section)->get();
+        $videos = Video::where('section', $section)->where('active', true)->get();
         return view('section')
             ->with('section', $section)
             ->with('videos', $videos);

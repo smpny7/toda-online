@@ -19,7 +19,6 @@ class HomeController extends Controller
 
                 // TODO publicディレクトリに入っているファイルは誰でもアクセスできてしまうため、公開したくないファイルの場合は別途処理が必要
                 if (!Storage::disk('local')->exists('public/thumbnail/' . $video->id . '.jpg')) {
-                    Log:debug((array)$video->duration);
                     FFMpeg::fromDisk('local')
                         ->open('public/' . $video->path)
                         ->getFrameFromSeconds($video->duration - 1)
@@ -32,5 +31,19 @@ class HomeController extends Controller
             }
         }
         return view('home')->with('watch_next_videos', $watch_next_videos);
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $videos = Video::where('chapter', 'LIKE', "%{$keyword}%")
+            ->orWhere('section', 'LIKE', "%{$keyword}%")
+            ->orWhere('title', 'LIKE', "%{$keyword}%")
+            ->get();
+
+        return view('home.search')
+            ->with('videos', $videos->where('active', true))
+            ->with('keyword', $keyword);
     }
 }
