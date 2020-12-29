@@ -2,18 +2,24 @@
 
 PS3='>> '
 
-select word in 'Build Docker Environment' 'Execute Bash Command' 'Clear Cache' 'Install FFmpeg' 'Down Containers'
-do
-  case $REPLY in
-    1 ) cd ./laradock
+select word in 'Build Docker Environment' 'Execute Bash Command' 'Clear Cache' 'Down Containers'; do
+    case $REPLY in
+    1)
+        cd ./laradock || exit
         docker-compose up -d php-fpm nginx mysql
-        break ;;
+        docker-compose exec php-fpm apt-get update
+        docker-compose exec php-fpm apt-get install -y ffmpeg
+        break
+        ;;
 
-    2 ) cd ./laradock
+    2)
+        cd ./laradock || exit
         docker-compose exec workspace bash
-        break ;;
+        break
+        ;;
 
-    3 ) cd ./laradock
+    3)
+        cd ./laradock || exit
         docker-compose exec workspace bash -c "
         php artisan cache:clear &&
         php artisan config:clear &&
@@ -24,17 +30,15 @@ do
         php artisan optimize &&
         composer dump-autoload &&
         rm -f bootstrap/cache/config.php"
-        break ;;
+        break
+        ;;
 
-    4 ) cd ./laradock
-        docker-compose exec php-fpm apt-get update
-        docker-compose exec php-fpm apt-get install -y ffmpeg
-        break ;;
-
-    5 ) cd ./laradock
+    4)
+        cd ./laradock || exit
         docker-compose down
-        break ;;
+        break
+        ;;
 
-    * ) break ;;
-  esac
+    *) break ;;
+    esac
 done

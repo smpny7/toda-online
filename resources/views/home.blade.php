@@ -12,10 +12,10 @@
                     <img class="w-10/12 rounded-full object-cover"
                          src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"/>
                     <p class="absolute bottom-0 sm:bottom-5 right-0 sm:right-4 bg-themeColor rounded-full px-3 py-1 text-white text-xs">
-                        @if(Auth::user()->grade > 0)
-                            {{ __(Auth::user()->grade . '年生') }}
-                        @else
+                        @if(Auth::user()->grade == 0)
                             {{ __('管理者') }}
+                        @else
+                            {{ __(Auth::user()->grade . '年生') }}
                         @endif
                     </p>
                 </div>

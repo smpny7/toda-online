@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VideosController;
 use App\Http\Middleware\CheckAdmin;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('home');;
+    return redirect()->route('home');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -30,9 +31,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
-    Route::prefix('console')->name('console.')->middleware([CheckAdmin::class])->group(function () {
-        Route::get('/', function() {
-            return view('console.index');
-        })->name('index');
+    Route::prefix('admin')->name('admin.')->middleware([CheckAdmin::class])->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/student', [AdminController::class, 'student'])->name('student');
+        Route::get('/student/{id}', [AdminController::class, 'studentDetail'])->name('studentDetail');
+        Route::get('/video', [AdminController::class, 'video'])->name('video');
+
+        Route::post('/updateStudent/{id}',[AdminController::class, 'updateStudent'])->name('updateStudent');
     });
 });

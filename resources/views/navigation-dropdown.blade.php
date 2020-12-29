@@ -12,9 +12,16 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if(request()->is('console*'))
-                        <x-jet-nav-link>
+                    @if(request()->is('admin*'))
+                        <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
                             {{ __('コンソール画面') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('admin.student') }}"
+                                        :active="request()->routeIs('admin.student')">
+                            {{ __('生徒一覧') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('admin.video') }}" :active="request()->routeIs('admin.video')">
+                            {{ __('映像一覧') }}
                         </x-jet-nav-link>
                     @else
                         <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
@@ -26,6 +33,12 @@
                                 {{ $class }}
                             </x-jet-nav-link>
                         @endforeach
+                        @if(Auth::user()->grade == 0)
+                            <x-jet-nav-link href="{{ route('admin.index') }}"
+                                            :active="request()->routeIs('admin.index')">
+                                {{ __('管理者ページへ') }}
+                            </x-jet-nav-link>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -139,9 +152,18 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @if(request()->is('console*'))
-                <x-jet-responsive-nav-link>
+            @if(request()->is('admin*'))
+                <x-jet-responsive-nav-link href="{{ route('admin.index') }}"
+                                           :active="request()->routeIs('admin.index')">
                     {{ __('コンソール画面') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('admin.student') }}"
+                                           :active="request()->routeIs('admin.student')">
+                    {{ __('生徒一覧') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('admin.video') }}"
+                                           :active="request()->routeIs('admin.video')">
+                    {{ __('映像一覧') }}
                 </x-jet-responsive-nav-link>
             @else
                 <x-jet-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
@@ -153,6 +175,12 @@
                         {{ $class }}
                     </x-jet-responsive-nav-link>
                 @endforeach
+                @if(Auth::user()->grade == 0)
+                    <x-jet-responsive-nav-link href="{{ route('admin.index') }}"
+                                               :active="request()->routeIs('admin.index')">
+                        {{ __('管理者ページへ') }}
+                    </x-jet-responsive-nav-link>
+                @endif
             @endif
         </div>
 
