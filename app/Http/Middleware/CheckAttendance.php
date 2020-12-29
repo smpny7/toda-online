@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Videos;
+use App\Models\Video;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +19,7 @@ class CheckAttendance
     public function handle(Request $request, Closure $next)
     {
         $video_id = str_replace(url('/') . '/video/', '', url()->current());
-        $video = Videos::where('id', $video_id)->first();
+        $video = Video::where('id', $video_id)->first();
         foreach (config('const.CLASS') as $class_key => $class) {
             if ((bool) $class == $video->class) {
                 if(Auth::user()->$class_key)

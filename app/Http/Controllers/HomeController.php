@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Videos;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $watch_next_videos = Videos::orderBy('id', 'ASC')->take(3)->get();
+        $watch_next_videos = Video::orderBy('id', 'ASC')->take(3)->get();
         foreach ($watch_next_videos as $video) {
             if (isset($video->path)) {
                 $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);

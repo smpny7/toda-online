@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Videos;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -30,7 +30,7 @@ class AdminController extends Controller
 
     public function video()
     {
-        $videos = Videos::get();
+        $videos = Video::get();
         return view('admin.video')
             ->with('videos', $videos);
     }
