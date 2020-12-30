@@ -31,7 +31,7 @@
                             {{ __('検索') }}
                         </x-jet-nav-link>
                         @foreach(config('const.CLASS') as $class_key => $class)
-                            @if(Auth::user()->$class_key)
+                            @if(Auth::user()->attendances()->first()->$class_key)
                                 <x-jet-nav-link href="{{ route('class', $class) }}"
                                                 :active="request()->is('class/{{ $class }}')">
                                     {{ $class }}
@@ -178,7 +178,7 @@
                     {{ __('検索') }}
                 </x-jet-responsive-nav-link>
                 @foreach(config('const.CLASS') as $class_key => $class)
-                    @if(Auth::user()->$class_key)
+                    @if(Auth::user()->attendances()->first()->$class_key)
                         <x-jet-responsive-nav-link href="{{ route('class', $class) }}"
                                                    :active="request()->is('class/{{ $class }}')">
                             {{ $class }}

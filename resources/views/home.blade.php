@@ -27,7 +27,7 @@
 
                 <div class="col-span-12 sm:col-span-5 lg:col-span-4 pt-4 sm:pt-13">
                     <a href="{{ route('search') }}"
-                        class="bg-white rounded-lg border-themeColor border-2 ml-3 sm:ml-0 px-5 md:px-2 xl:px-5 py-2">
+                       class="bg-white rounded-lg border-themeColor border-2 ml-3 sm:ml-0 px-5 md:px-2 xl:px-5 py-2">
                         <img class="inline-block w-6" src="{{ asset('img/search-button-icon.png') }}" alt="search">
                         <span class="text-themeColor font-bold tracking-widest ml-2">動画を検索</span>
                     </a>
@@ -66,7 +66,7 @@
                 {{ __('受講中の講座一覧') }}
             </h3>
             @foreach(config('const.CLASS') as $class_key => $class)
-                @if(Auth::user()->$class_key)
+                @if(Auth::user()->attendances()->first()->$class_key)
                     @include('components.course-card', ['class'=>$class])
                 @endif
             @endforeach

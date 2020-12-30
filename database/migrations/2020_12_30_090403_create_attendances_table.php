@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCourseRegistrationToUsersTable extends Migration
+class CreateAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class AddCourseRegistrationToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
+            $table->bigInteger('user_id');
             $table->boolean('math1')->default(false);
             $table->boolean('math2')->default(false);
             $table->boolean('math3')->default(false);
             $table->boolean('mathA')->default(false);
             $table->boolean('mathB')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -29,8 +31,6 @@ class AddCourseRegistrationToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('math1', 'math2', 'math3', 'mathA', 'mathB');
-        });
+        Schema::dropIfExists('attendances');
     }
 }

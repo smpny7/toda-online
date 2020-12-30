@@ -23,7 +23,7 @@ class CheckAttendance
         if (!$video->active) abort(401);
         foreach (config('const.CLASS') as $class_key => $class) {
             if ((bool)$class == $video->class) {
-                if (Auth::user()->$class_key)
+                if (Auth::user()->attendances()->first()->$class_key)
                     return $next($request);
                 else
                     abort(401);

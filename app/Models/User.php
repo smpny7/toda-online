@@ -58,4 +58,12 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the attendance record associated with the user.
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

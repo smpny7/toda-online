@@ -14,7 +14,7 @@ class AddGradeColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('grade')->after('updated_at');
+            $table->integer('grade')->after('name');
         });
     }
 
