@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="sm:col-span-3 hidden lg:block">
-                    <img class="w-full object-cover" src="{{ asset('img/logo.png') }}" alt="ロゴ"/>
+                    <img class="w-full object-cover" src="{{ asset('img/image.png') }}" alt="image"/>
                 </div>
             </div>
         </div>

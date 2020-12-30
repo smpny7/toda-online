@@ -4,9 +4,11 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
+                <div class="flex flex-shrink-0 items-center">
                     <a href="{{ route('home') }}">
-                        <x-jet-application-mark class="block h-9 w-auto"/>
+{{--                        <img src="{{ asset('img/logo.png') }}" class="h-12 inline-block w-auto" alt="logo">--}}
+                        <x-jet-application-mark/>
+                        <h1 class="font-medium inline-block ml-3 relative text-lg top-0.5 tracking-wider">戸田塾</h1>
                     </a>
                 </div>
 
