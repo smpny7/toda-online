@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class VideosController extends Controller
 {
-    public function class($class) {
-        $chapters = Video::where('class', $class)->groupBy('chapter')->get('chapter');
-        return view('class')
-            ->with('class', $class)
-            ->with('chapters', $chapters);
-    }
-
     public function chapter($chapter) {
         $sections = Video::where('chapter', $chapter)->groupBy('section')->get('section');
         return view('chapter')

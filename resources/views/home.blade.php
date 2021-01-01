@@ -67,7 +67,7 @@
             </h3>
             @foreach(config('const.CLASS') as $class_key => $class)
                 @if(Auth::user()->attendances()->first()->$class_key)
-                    @include('components.course-card', ['class'=>$class])
+                    @include('components.course-card', ['class' => $class, 'class_key' => $class_key])
                 @endif
             @endforeach
         </div>
