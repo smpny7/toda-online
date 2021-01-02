@@ -70,6 +70,14 @@
                                 </x-jet-dropdown-link>
                             @endif
 
+                        <!-- Admin -->
+                            @if(Auth::user()->grade == 0)
+                                <x-jet-dropdown-link href="{{ route('admin.index') }}"
+                                                     :active="request()->routeIs('admin.index')">
+                                    {{ __('管理者ページ') }}
+                                </x-jet-dropdown-link>
+                            @endif
+
                             <div class="border-t border-gray-100"></div>
 
                             <!-- Team Management -->
@@ -166,6 +174,14 @@
                     <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}"
                                                :active="request()->routeIs('api-tokens.index')">
                         {{ __('API Tokens') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
+            <!-- Admin -->
+                @if(Auth::user()->grade == 0)
+                    <x-jet-responsive-nav-link href="{{ route('admin.index') }}"
+                                               :active="request()->routeIs('admin.index')">
+                        {{ __('管理者ページ') }}
                     </x-jet-responsive-nav-link>
                 @endif
 

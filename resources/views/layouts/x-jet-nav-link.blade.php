@@ -62,11 +62,4 @@
         {{ __('ウォッチリスト') }}
     </x-jet-nav-link>
 
-    <!-- 管理者ページへ -->
-    @if(Auth::user()->grade == 0)
-        <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
-            {{ __('管理者ページへ') }}
-        </x-jet-nav-link>
-    @endif
-
 @endif
