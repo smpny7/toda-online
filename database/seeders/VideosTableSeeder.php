@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use SplFileObject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -23,27 +24,38 @@ class VideosTableSeeder extends Seeder
                 \SplFileObject::DROP_NEW_LINE
         );
         $lists = [];
-        foreach ($file as $i => $line) {
+        $section_temp = null;
+        $video_count = 1;
+        foreach ($file as $line) {
+            if($section_temp != $line[4])
+                $video_count = 1;
+
             $lists[] = [
                 'class' => $line[0],
-                'chapter' => $line[1],
-                'section' => $line[2],
-                'title' => $line[3],
+                'class_label' => $line[1],
+                'chapter' => $line[2],
+                'chapter_label' => $line[3],
+                'section' => $line[4],
+                'section_label' => $line[5],
+                'title' => $line[6],
+                'path' => 'video/' . $line[1] . '/' . $line[3] . '/' . $line[5] . '/'  . $video_count . '.mp4',
+                'created_at' => new Carbon(),
+                'updated_at' => new Carbon(),
             ];
+
+            $section_temp = $line[4];
+            $video_count++;
         }
 
         DB::transaction(function () use ($lists) {
             $pack = [];
-            $inserts = 0;
             foreach ($lists as $list) {
                 $pack[] = $list;
                 if (count($pack) >= 1000) {
-                    $inserts += count($pack);
                     DB::table('videos')->insert($pack);
                     $pack = [];
                 }
             }
-            $inserts += count($pack);
 
             // Insert of extra rows
             DB::table('videos')->insert($pack);
