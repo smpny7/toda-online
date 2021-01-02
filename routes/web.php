@@ -28,15 +28,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 //  Class
-    Route::get('/math1', [ClassController::class, 'math1'])->name('math1');
-    Route::get('/math2', [ClassController::class, 'math2'])->name('math2');
-    Route::get('/math3', [ClassController::class, 'math3'])->name('math3');
-    Route::get('/mathA', [ClassController::class, 'mathA'])->name('mathA');
-    Route::get('/mathB', [ClassController::class, 'mathB'])->name('mathB');
+    Route::get('/math1', [ClassController::class, 'math1'])->middleware('attendance:math1')->name('math1');
+    Route::get('/math2', [ClassController::class, 'math2'])->middleware('attendance:math2')->name('math2');
+    Route::get('/math3', [ClassController::class, 'math3'])->middleware('attendance:math3')->name('math3');
+    Route::get('/mathA', [ClassController::class, 'mathA'])->middleware('attendance:mathA')->name('mathA');
+    Route::get('/mathB', [ClassController::class, 'mathB'])->middleware('attendance:mathB')->name('mathB');
 
     Route::get('/chapter/{chapter}', [VideosController::class, 'chapter'])->name('chapter');
     Route::get('/section/{section}', [VideosController::class, 'section'])->name('section');
-    Route::get('/video/{video_id}', [VideosController::class, 'video'])->middleware([CheckAttendance::class])->name('video');
+    Route::get('/video/{video_id}', [VideosController::class, 'video'])->name('video');
 
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
