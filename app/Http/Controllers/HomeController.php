@@ -30,7 +30,7 @@ class HomeController extends Controller
                 $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
             }
         }
-        return view('home')->with('watch_next_videos', $watch_next_videos);
+        return view('home.index')->with('watch_next_videos', $watch_next_videos);
     }
 
     public function search(Request $request)

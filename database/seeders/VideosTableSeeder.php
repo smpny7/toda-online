@@ -24,27 +24,20 @@ class VideosTableSeeder extends Seeder
                 \SplFileObject::DROP_NEW_LINE
         );
         $lists = [];
-        $section_temp = null;
-        $video_count = 1;
         foreach ($file as $line) {
-            if($section_temp != $line[4])
-                $video_count = 1;
-
             $lists[] = [
                 'class' => $line[0],
-                'class_label' => $line[1],
+                'class_key' => $line[1],
                 'chapter' => $line[2],
-                'chapter_label' => $line[3],
+                'chapter_key' => $line[3],
                 'section' => $line[4],
-                'section_label' => $line[5],
-                'title' => $line[6],
-                'path' => 'video/' . $line[1] . '/' . $line[3] . '/' . $line[5] . '/'  . $video_count . '.mp4',
+                'section_key' => $line[5],
+                'video_id' => $line[6],
+                'title' => $line[7],
+                'path' => 'video/' . $line[1] . '/' . $line[3] . '/' . $line[5] . '/'  . $line[6] . '.mp4',
                 'created_at' => new Carbon(),
                 'updated_at' => new Carbon(),
             ];
-
-            $section_temp = $line[4];
-            $video_count++;
         }
 
         DB::transaction(function () use ($lists) {

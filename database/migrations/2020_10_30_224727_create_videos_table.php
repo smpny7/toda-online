@@ -19,11 +19,12 @@ class CreateVideosTable extends Migration
             $table->string('chapter');
             $table->string('section');
             $table->string('title');
+            $table->integer('video_id');
             $table->boolean('active')->default(true);
             $table->text('path');
-            $table->string('class_label');
-            $table->string('chapter_label');
-            $table->string('section_label');
+            $table->string('class_key');
+            $table->string('chapter_key');
+            $table->string('section_key');
             $table->timestamps();
         });
     }

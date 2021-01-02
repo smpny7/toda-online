@@ -24,35 +24,35 @@
 
     <!-- 数学I -->
     @if(Auth::user()->attendances()->first()->math1)
-        <x-jet-responsive-nav-link href="{{ route('math1') }}" :active="request()->is('math1*')">
+        <x-jet-responsive-nav-link href="{{ route('class', ['class_key' => 'math1']) }}" :active="request()->is('math1*')">
             {{ config('const.CLASS')['math1'] }}
         </x-jet-responsive-nav-link>
     @endif
 
     <!-- 数学Ⅱ -->
     @if(Auth::user()->attendances()->first()->math2)
-        <x-jet-responsive-nav-link href="{{ route('math2') }}" :active="request()->is('math2*')">
+        <x-jet-responsive-nav-link href="{{ route('class', ['class_key' => 'math2']) }}" :active="request()->is('math2*')">
             {{ config('const.CLASS')['math2'] }}
         </x-jet-responsive-nav-link>
     @endif
 
     <!-- 数学Ⅲ -->
     @if(Auth::user()->attendances()->first()->math3)
-        <x-jet-responsive-nav-link href="{{ route('math3') }}" :active="request()->is('math3*')">
+        <x-jet-responsive-nav-link href="{{ route('class', ['class_key' => 'math3']) }}" :active="request()->is('math3*')">
             {{ config('const.CLASS')['math3'] }}
         </x-jet-responsive-nav-link>
     @endif
 
     <!-- 数学A -->
     @if(Auth::user()->attendances()->first()->mathA)
-        <x-jet-responsive-nav-link href="{{ route('mathA') }}" :active="request()->is('mathA*')">
+        <x-jet-responsive-nav-link href="{{ route('class', ['class_key' => 'mathA']) }}" :active="request()->is('mathA*')">
             {{ config('const.CLASS')['mathA'] }}
         </x-jet-responsive-nav-link>
     @endif
 
     <!-- 数学B -->
     @if(Auth::user()->attendances()->first()->mathB)
-        <x-jet-responsive-nav-link href="{{ route('mathB') }}" :active="request()->is('mathB*')">
+        <x-jet-responsive-nav-link href="{{ route('class', ['class_key' => 'mathB']) }}" :active="request()->is('mathB*')">
             {{ config('const.CLASS')['mathB'] }}
         </x-jet-responsive-nav-link>
     @endif
