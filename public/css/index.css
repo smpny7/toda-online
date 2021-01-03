@@ -23,3 +23,11 @@
     top: 70%;
     width: 3px;
 }
+
+.watch_later input[type="checkbox"] + label {
+    background-image: url('/img/bookmark.png');
+}
+
+.watch_later input[type="checkbox"]:checked + label {
+    background-image: url('/img/bookmark-f.png');
+}

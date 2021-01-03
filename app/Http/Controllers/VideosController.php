@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\History;
+use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,8 @@ class VideosController extends Controller
 
     public function show($class_key, $chapter_key, $section_key, $video_id)
     {
+        $users = User::query()->get();
+
         $video = Video::query()
             ->where('class_key', $class_key)
             ->where('chapter_key', $chapter_key)
@@ -75,6 +78,7 @@ class VideosController extends Controller
         History::insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
 
         return view('video.show')
+            ->with('users', $users)
             ->with('video', $video);
     }
 
