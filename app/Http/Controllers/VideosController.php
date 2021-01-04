@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Models\Comment;
 use App\Models\History;
 use App\Models\User;
@@ -77,6 +78,10 @@ class VideosController extends Controller
         if (!$video)
             abort(401);
 
+        $bookmarked = Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists();
+
+        Log::debug($bookmarked);
+
         $video->filesize = Storage::disk('local')->size('public/' . $video->path);
 
         $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
@@ -97,6 +102,7 @@ class VideosController extends Controller
 
         return view('video.show')
             ->with('video', $video)
+            ->with('bookmarked', $bookmarked)
             ->with('comments', $comments);
     }
 
@@ -115,6 +121,18 @@ class VideosController extends Controller
     public function createComment(Request $request, $video_id)
     {
         Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+        $video = Video::query()->findOrFail($video_id);
+
+        return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);
+    }
+
+    public function createBookmark($video_id)
+    {
+        if (Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists())
+            Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->delete();
+        else
+            Bookmark::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+
         $video = Video::query()->findOrFail($video_id);
 
         return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);

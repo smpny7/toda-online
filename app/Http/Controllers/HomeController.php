@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -45,5 +47,13 @@ class HomeController extends Controller
         return view('home.search')
             ->with('videos', $videos->where('active', true))
             ->with('keyword', $keyword);
+    }
+
+    public function watchList()
+    {
+        $bookmarks = Bookmark::query()->where('user_id', Auth::id())->get();
+
+        return view('home.watchList')
+            ->with('bookmarks', $bookmarks);
     }
 }

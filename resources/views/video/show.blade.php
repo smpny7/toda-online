@@ -46,9 +46,11 @@
                             </div>
                         </div>
                         <div class="col-span-1">
-                            <form class="h-1/2 ml-3 relative w-1/2 watch_later">
+                            <form class="h-1/2 ml-3 relative w-1/2 watch_later" onchange="this.submit()"
+                                  action="{{ route('createBookmark', ['video_id' => $video->id]) }}" method="POST">
+                                @csrf
                                 <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
-                                       @if(false) selected @endif>
+                                       @if($bookmarked) checked @endif>
                                 <label for="bookmark" style="background-size: 30px"
                                        class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
                             </form>

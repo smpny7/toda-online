@@ -58,7 +58,7 @@
     @endif
 
     <!-- ウォッチリスト -->
-    <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+    <x-jet-nav-link href="{{ route('watchList') }}" :active="request()->routeIs('admin.index')">
         {{ __('ウォッチリスト') }}
     </x-jet-nav-link>
 

@@ -25,9 +25,11 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
+    Route::get('/watchList', [HomeController::class, 'watchList'])->name('watchList');
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
     Route::post('/createComment/{video_id}', [VideosController::class, 'createComment'])->name('createComment');
+    Route::post('/createBookmark/{video_id}', [VideosController::class, 'createBookmark'])->name('createBookmark');
 
     // Admin
     Route::prefix('admin')->name('admin.')->middleware([CheckAdmin::class])->group(function () {
