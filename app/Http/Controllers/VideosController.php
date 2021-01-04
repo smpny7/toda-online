@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\History;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
+use http\Message;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class VideosController extends Controller
 {
@@ -61,8 +66,6 @@ class VideosController extends Controller
 
     public function show($class_key, $chapter_key, $section_key, $video_id)
     {
-        $users = User::query()->get();
-
         $video = Video::query()
             ->where('class_key', $class_key)
             ->where('chapter_key', $chapter_key)
@@ -74,12 +77,27 @@ class VideosController extends Controller
         if (!$video)
             abort(401);
 
+        $video->filesize = Storage::disk('local')->size('public/' . $video->path);
+
+        $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
+        $video->duration = $media->getDurationInSeconds();
+
+        $video->watched = History::query()
+            ->where('user_id', Auth::id())
+            ->where('video_id', $video_id)
+            ->first();
+
+        $comments = Comment::query()
+            ->where('video_id', $video->id)
+            ->where('disabled', false)
+            ->get();
+
 //        TODO: ビデオ再生時に変更
-        History::insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+//        History::insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
 
         return view('video.show')
-            ->with('users', $users)
-            ->with('video', $video);
+            ->with('video', $video)
+            ->with('comments', $comments);
     }
 
     public function protection($video_id)
@@ -92,5 +110,13 @@ class VideosController extends Controller
             'Content-Type' => 'video/mp4',
             'Content-Disposition' => 'inline; filename="' . 'public/' . $video->path . '"'
         ]);
+    }
+
+    public function createComment(Request $request, $video_id)
+    {
+        Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+        $video = Video::query()->findOrFail($video_id);
+
+        return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);
     }
 }

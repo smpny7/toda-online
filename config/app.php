@@ -241,6 +241,7 @@ return [
          * Original Aliases...
          */
         'TimeConversion' => App\Utils\TimeConversion::class,
+        'FileSizeConversion' => App\Utils\FileSizeConversion::class,
     ],
 
 ];

@@ -27,6 +27,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
+    Route::post('/createComment/{video_id}', [VideosController::class, 'createComment'])->name('createComment');
+
     // Admin
     Route::prefix('admin')->name('admin.')->middleware([CheckAdmin::class])->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
