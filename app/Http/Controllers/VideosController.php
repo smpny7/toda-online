@@ -119,16 +119,19 @@ class VideosController extends Controller
         ]);
     }
 
-    public function createBookmark($video_id)
+    public function switchBookmark($video_id)
     {
-        if (Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists())
-            Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->delete();
-        else
-            Bookmark::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
-
-        $video = Video::query()->findOrFail($video_id);
-
-        return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);
+        try {
+            if (Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists()) {
+                Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->delete();
+                return json_encode(['success' => true, 'registered' => false]);
+            } else {
+                Bookmark::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+                return json_encode(['success' => true, 'registered' => true]);
+            }
+        } catch (\Exception $e) {
+            return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
+        }
     }
 
     public function createComment(Request $request, $video_id)
@@ -136,7 +139,7 @@ class VideosController extends Controller
         try {
             Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
             return json_encode(['success' => true, 'message' => ['Created Successfully!!!']]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
         }
     }
@@ -148,7 +151,7 @@ class VideosController extends Controller
             foreach ($comments as $comment)
                 $comment->user = User::query()->findOrFail($comment->user_id);
             return json_encode(['success' => true, 'comments' => $comments]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
         }
     }

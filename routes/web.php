@@ -28,8 +28,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/watchList', [HomeController::class, 'watchList'])->name('watchList');
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
+    Route::post('/switchBookmark/{video_id}', [VideosController::class, 'switchBookmark'])->name('switchBookmark');
     Route::post('/createComment/{video_id}', [VideosController::class, 'createComment'])->name('createComment');
-    Route::post('/createBookmark/{video_id}', [VideosController::class, 'createBookmark'])->name('createBookmark');
     Route::post('/getComments/{video_id}', [VideosController::class, 'getComments'])->name('getComments');
 
     // Admin

@@ -21,7 +21,7 @@
             <div class="grid grid-cols-3 gap-6 mt-8">
                 <div class="col-span-3 lg:col-span-2">
                     <div class="h-113">
-                        <video src="{{ route('protection', ['video_id' => $video->id]) }}"
+                        <video id="video" src="{{ route('protection', ['video_id' => $video->id]) }}"
                                controlsList="nodownload" controls oncontextmenu="return false" preload="none"
                                class="h-full rounded-xl shadow-xl w-full focus:outline-none"
                                poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
@@ -59,11 +59,10 @@
                             </div>
                         </div>
                         <div class="col-span-1">
-                            <form class="h-1/2 ml-3 relative w-1/2 watch_later" onchange="this.submit()"
-                                  action="{{ route('createBookmark', ['video_id' => $video->id]) }}" method="POST">
-                                @csrf
+                            <form class="h-1/2 ml-3 relative w-1/2 watch_later"
+                                  action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
                                 <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
-                                       @if($bookmarked) checked @endif>
+                                       @if($bookmarked) checked @endif disabled>
                                 <label for="bookmark" style="background-size: 30px"
                                        class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
                             </form>
@@ -120,13 +119,15 @@
             });
 
             getMessages();
+            $('#bookmark').prop('disabled', false);
 
             $(function () {
                 $('#alert-hidden').on('click', function () {
-                    $('#alert-message').text('');
-                    $('#alert').addClass('hidden');
-                    $('#alert-failed').addClass('hidden');
-                    $('#alert-success').addClass('hidden');
+                    hiddenAlert();
+                });
+
+                $('#bookmark').change(function () {
+                    switchBookmark();
                 });
 
                 $('#create-comment').on('click', function (event) {
@@ -134,6 +135,56 @@
                     sendMessage();
                 });
             });
+
+            function hiddenAlert() {
+                $('#alert-message').text('');
+                $('#alert').addClass('hidden');
+                $('#alert-failed').addClass('hidden');
+                $('#alert-success').addClass('hidden');
+            }
+
+            function switchBookmark() {
+                $form = $('#bookmark').parents('form:first');
+
+                $.ajax({
+                    url: $form.attr('action'), //Formのアクションを取得して指定する
+                    type: $form.attr('method'),//Formのメソッドを取得して指定する
+                    data: $form.serialize(),　 //データにFormがserialzeした結果を入れる
+                    timeout: 10000,
+                    success: function (result) {
+                        console.log(result);
+                        //Alertで送信結果を表示する
+                        if (jQuery.parseJSON(result).success) {
+                            if (jQuery.parseJSON(result).registered)
+                                $('#alert-message').text('ウォッチリストに追加しました');
+                            else
+                                $('#alert-message').text('ウォッチリストから削除しました');
+                            $('#alert-failed').addClass('hidden');
+                            $('#alert-success').removeClass('hidden');
+                        } else {
+                            $('#alert-message').text('ウォッチリストの反映に失敗しました');
+                            $('#alert-failed').removeClass('hidden');
+                            $('#alert-success').addClass('hidden');
+                        }
+                        $('#alert').removeClass('hidden');
+
+                        setTimeout(() => {
+                            hiddenAlert();
+                        }, 3000);
+                    },
+                    error: function () {
+                        $('#create-comment').attr('disabled', false);
+                        $('#alert-message').text('ウォッチリストの反映に失敗しました');
+                        $('#alert-failed').removeClass('hidden');
+                        $('#alert-success').addClass('hidden');
+                        $('#alert').removeClass('hidden');
+
+                        setTimeout(() => {
+                            hiddenAlert();
+                        }, 3000);
+                    }
+                });
+            }
 
             function getMessages() {
                 moment.locale('ja');
@@ -174,7 +225,7 @@
             }
 
             function sendMessage() {
-                $form = $(this).parents('form:first');
+                $form = $('#create-comment').parents('form:first');
 
                 if ($('#input-comment').val() === '') {
                     $('#alert-message').text('メッセージを入力してください');
@@ -215,6 +266,10 @@
                         $('#alert').removeClass('hidden');
 
                         getMessages();
+
+                        setTimeout(() => {
+                            hiddenAlert();
+                        }, 3000);
                     },
                     error: function () {
                         $('#create-comment').attr('disabled', false);
@@ -224,6 +279,10 @@
                         $('#alert').removeClass('hidden');
 
                         getMessages();
+
+                        setTimeout(() => {
+                            hiddenAlert();
+                        }, 3000);
                     }
                 });
             }
