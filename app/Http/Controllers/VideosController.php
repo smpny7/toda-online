@@ -8,8 +8,9 @@ use App\Models\History;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
-use http\Message;
+use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -92,10 +93,10 @@ class VideosController extends Controller
             ->where('video_id', $video_id)
             ->first();
 
-        $comments = Comment::query()
+        $comment_count = Comment::query()
             ->where('video_id', $video->id)
             ->where('disabled', false)
-            ->get();
+            ->count();
 
 //        TODO: ビデオ再生時に変更
 //        History::insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
@@ -103,7 +104,7 @@ class VideosController extends Controller
         return view('video.show')
             ->with('video', $video)
             ->with('bookmarked', $bookmarked)
-            ->with('comments', $comments);
+            ->with('comment_count', $comment_count);
     }
 
     public function protection($video_id)
@@ -118,14 +119,6 @@ class VideosController extends Controller
         ]);
     }
 
-    public function createComment(Request $request, $video_id)
-    {
-        Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
-        $video = Video::query()->findOrFail($video_id);
-
-        return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);
-    }
-
     public function createBookmark($video_id)
     {
         if (Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists())
@@ -136,5 +129,27 @@ class VideosController extends Controller
         $video = Video::query()->findOrFail($video_id);
 
         return redirect()->route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video_id]);
+    }
+
+    public function createComment(Request $request, $video_id)
+    {
+        try {
+            Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+            return json_encode(['success' => true, 'message' => ['Created Successfully!!!']]);
+        } catch (Exception $e) {
+            return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
+        }
+    }
+
+    public function getComments($video_id)
+    {
+        try {
+            $comments = Comment::query()->where('video_id', $video_id)->where('disabled', false)->get();
+            foreach ($comments as $comment)
+                $comment->user = User::query()->findOrFail($comment->user_id);
+            return json_encode(['success' => true, 'comments' => $comments]);
+        } catch (Exception $e) {
+            return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
+        }
     }
 }

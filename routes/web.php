@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::post('/createComment/{video_id}', [VideosController::class, 'createComment'])->name('createComment');
     Route::post('/createBookmark/{video_id}', [VideosController::class, 'createBookmark'])->name('createBookmark');
+    Route::post('/getComments/{video_id}', [VideosController::class, 'getComments'])->name('getComments');
 
     // Admin
     Route::prefix('admin')->name('admin.')->middleware([CheckAdmin::class])->group(function () {
