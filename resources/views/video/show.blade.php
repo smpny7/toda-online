@@ -9,11 +9,13 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-3 gap-6 mt-3">
                 <div class="col-span-3 lg:col-span-2">
-                    <video src="{{ route('protection', ['video_id' => $video->id]) }}"
-                           controlsList="nodownload" controls oncontextmenu="return false" preload="none"
-                           class="rounded-xl shadow-xl w-full focus:outline-none"
-                           poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
-                    <div class="bg-white grid grid-cols-12 mt-7 px-1 py-6 rounded-xl shadow-md">
+                    <div class="h-113">
+                        <video src="{{ route('protection', ['video_id' => $video->id]) }}"
+                               controlsList="nodownload" controls oncontextmenu="return false" preload="none"
+                               class="h-full rounded-xl shadow-xl w-full focus:outline-none"
+                               poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
+                    </div>
+                        <div class="bg-white grid grid-cols-12 mt-7 px-1 py-6 rounded-xl shadow-md">
                         <div class="col-span-2">
                             <p class="pt-1 text-center">
                                 <span
