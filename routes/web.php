@@ -29,6 +29,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
     Route::post('/switchBookmark/{video_id}', [VideosController::class, 'switchBookmark'])->name('switchBookmark');
+    Route::post('/createHistory/{video_id}', [VideosController::class, 'createHistory'])->name('createHistory');
     Route::post('/createComment/{video_id}', [VideosController::class, 'createComment'])->name('createComment');
     Route::post('/getComments/{video_id}', [VideosController::class, 'getComments'])->name('getComments');
 

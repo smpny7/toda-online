@@ -49,13 +49,15 @@
                                     class="align-middle font-semibold inline-block ml-2 text-gray-500 text-md">
                                         {{ TimeConversion::fromSecondsToMinutes($video->duration) }}
                                 </span>
-                                <img
-                                    src="@isset($video->watched) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endisset"
-                                    class="align-middle inline-block ml-5 w-5" alt="Eye">
-                                <span
-                                    class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
+                                <div id="watched" class="inline-block">
+                                    <img
+                                        src="@isset($video->watched) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endisset"
+                                        class="align-middle inline-block ml-5 w-5" alt="Eye">
+                                    <span
+                                        class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
                                         @isset($video->watched) 視聴済み @else 未視聴 @endisset
-                                </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-span-1">
@@ -134,6 +136,10 @@
                     event.preventDefault();
                     sendMessage();
                 });
+
+                document.getElementById('video').addEventListener('timeupdate', function () {
+                    createHistory();
+                }, {once: true});
             });
 
             function hiddenAlert() {
@@ -289,6 +295,24 @@
 
             function messageScroll() {
                 $('#message').animate({scrollTop: $('#message')[0].scrollHeight}, 'fast');
+            }
+
+            function createHistory() {
+                $.ajax({
+                    url: '{{ route('createHistory', ['video_id' => $video->id]) }}', //送信先
+                    type: 'POST', //送信方法
+                    datatype: 'json', //受け取りデータの種類
+                    success: function () {
+                        $('#watched').html(`
+                            <img src="{{ asset('img/eye.png') }}" class="align-middle inline-block ml-5 w-5" alt="Eye">
+                            <span class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">視聴済み</span>
+                        `);
+                        console.log('通信成功');
+                    },
+                    error: function () {
+                        console.log('通信失敗');
+                    }
+                });
             }
         });
     </script>

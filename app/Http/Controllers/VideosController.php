@@ -98,9 +98,6 @@ class VideosController extends Controller
             ->where('disabled', false)
             ->count();
 
-//        TODO: ビデオ再生時に変更
-//        History::insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
-
         return view('video.show')
             ->with('video', $video)
             ->with('bookmarked', $bookmarked)
@@ -131,6 +128,16 @@ class VideosController extends Controller
             }
         } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
+        }
+    }
+
+    public function createHistory($video_id)
+    {
+        try {
+            History::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+            return json_encode(['success' => true]);
+        } catch (\Exception $e) {
+            return json_encode(['success' => false]);
         }
     }
 
