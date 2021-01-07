@@ -71,6 +71,33 @@ class VideosController extends Controller
             ->select('chapter', 'section_key', 'section')
             ->get();
 
+        foreach ($videos as $video) {
+            $watched = 0;
+
+            Log::debug($video->section_key);
+            $section_videos = Video::query()
+                ->where('class_key', $class_key)
+                ->where('chapter_key', $chapter_key)
+                ->where('section_key', $video->section_key)
+                ->where('active', true)
+                ->get();
+
+            $histories = History::query()
+                ->where('user_id', Auth::id())
+                ->groupBy('video_id')
+                ->select('video_id')
+                ->get();
+
+            foreach ($section_videos as $section_video) {
+                foreach ($histories as $history)
+                    if ($section_video->id == $history->video_id)
+                        $watched++;
+            }
+
+            $video->watched = $watched;
+            $video->all = $section_videos->count();
+        }
+
         return view('video.chapter')
             ->with('videos', $videos)
             ->with('class_key', $class_key)

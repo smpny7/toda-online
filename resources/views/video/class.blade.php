@@ -6,8 +6,8 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4 sm:mt-8 px-8 sm:px-0">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4 sm:mt-8">
                 @foreach($videos as $video)
                     <div class="bg-white col-span-1 h-72 mb-1 sm:mb-2 px-5 py-5 relative rounded-xl shadow-md">
                         <div>
