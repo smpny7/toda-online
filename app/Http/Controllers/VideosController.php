@@ -12,6 +12,7 @@ use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -107,7 +108,7 @@ class VideosController extends Controller
         if (!$video)
             abort(401);
 
-        $bookmarked = Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists();
+        $bookmarked = Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video->id)->exists();
 
         $video->filesize = Storage::disk('local')->size('public/' . $video->path);
 
@@ -116,7 +117,7 @@ class VideosController extends Controller
 
         $video->watched = History::query()
             ->where('user_id', Auth::id())
-            ->where('video_id', $video_id)
+            ->where('video_id', $video->id)
             ->first();
 
         $comment_count = Comment::query()
