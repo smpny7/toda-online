@@ -6,19 +6,17 @@
     </x-slot>
     <div class="py-6">
         <div class="max-w-7xl mb-8 mx-auto px-8">
-            @if(true)
+            @empty(!$explanation->data)
                 <div class="bg-white flex mb-12 mt-4 sm:mt-8 px-8 sm:px-16 py-8 rounded-lg shadow-md">
                     <div class="flex-grow">
                         <p class="font-bold text-3xl tracking-widest">{{ $videos->first()->chapter }}</p>
-                        <p class="leading-7 md:mr-10 mt-3 text-gray-500">
-                            この単元はあふぁふぁふぁふぁふぁふぁふぁあなたもわたしもあふぁふぁふぁふぁふぁふぁふぁふぁふぁっふぁふぁふぁふぁふぁふぁふぁふぁっふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁふぁっふぁふぁふぁふぁふぁ
-                        </p>
+                        <p class="leading-7 md:mr-10 mt-3 text-gray-500">{{ $explanation->data }}</p>
                     </div>
                     <div class="flex-none hidden md:block w-60">
                         <img src="{{ asset('img/studying.png') }}" alt="Studying">
                     </div>
                 </div>
-            @endif
+            @endempty
             @foreach($videos as $video)
                 <div class="bg-white md:flex mt-4 px-5 sm:px-10 py-4 rounded-lg shadow-md">
                     <div class="flex-grow inline-block">
@@ -45,4 +43,15 @@
             @endforeach
         </div>
     </div>
+
+    <script>
+        window.addEventListener( "pageshow", function ( event ) {
+            const historyTraversal = event.persisted ||
+                ( typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+                window.location.reload();
+            }
+        });
+    </script>
 </x-app-layout>

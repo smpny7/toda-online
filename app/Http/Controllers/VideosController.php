@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
 use App\Models\Comment;
+use App\Models\Explanation;
 use App\Models\History;
 use App\Models\User;
 use App\Models\Video;
@@ -12,7 +13,6 @@ use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -74,7 +74,6 @@ class VideosController extends Controller
         foreach ($videos as $video) {
             $watched = 0;
 
-            Log::debug($video->section_key);
             $section_videos = Video::query()
                 ->where('class_key', $class_key)
                 ->where('chapter_key', $chapter_key)
@@ -98,8 +97,14 @@ class VideosController extends Controller
             $video->all = $section_videos->count();
         }
 
+        $explanation = Explanation::query()
+            ->where('class_key', $class_key)
+            ->where('chapter_key', $chapter_key)
+            ->first();
+
         return view('video.chapter')
             ->with('videos', $videos)
+            ->with('explanation', $explanation)
             ->with('class_key', $class_key)
             ->with('chapter_key', $chapter_key);
     }
