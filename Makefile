@@ -11,7 +11,7 @@ stop: ## コンテナの停止
 	cd laradock; docker-compose down
 
 start: ## コンテナの起動
-	cd laradock; docker-compose up -d mysql nginx
+	cd laradock; docker-compose up -d mysql nginx; docker-compose exec php-fpm apt-get update; docker-compose exec php-fpm apt-get install -y ffmpeg;
 
 build: ## コンテナのビルド
-	cd laradock; docker-compose build mysql nginx workspace php-fpm; docker-compose exec php-fpm apt-get update; docker-compose exec php-fpm apt-get install -y ffmpeg; docker-compose exec workspace php artisan storage:link
+	cd laradock; docker-compose build mysql nginx workspace php-fpm; docker-compose exec workspace php artisan storage:link
