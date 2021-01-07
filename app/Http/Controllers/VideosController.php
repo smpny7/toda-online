@@ -12,7 +12,6 @@ use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -26,6 +25,35 @@ class VideosController extends Controller
             ->groupBy('class', 'chapter_key', 'chapter')
             ->select('class', 'chapter_key', 'chapter')
             ->get();
+
+        foreach ($videos as $video) {
+            $watched = 0;
+
+            $chapter_videos = Video::query()
+                ->where('class_key', $class_key)
+                ->where('chapter_key', $video->chapter_key)
+                ->where('active', true)
+                ->get();
+
+            $histories = History::query()
+                ->where('user_id', Auth::id())
+                ->groupBy('video_id')
+                ->select('video_id')
+                ->get();
+
+            foreach ($chapter_videos as $chapter_video) {
+                foreach ($histories as $history)
+                    if ($chapter_video->id == $history->video_id)
+                        $watched++;
+            }
+
+            $video->watched = round($watched * 100 / $chapter_videos->count());
+
+            $video->subtitles = $chapter_videos
+                ->toQuery()
+                ->groupBy('section')
+                ->get('section');
+        }
 
         return view('video.class')
             ->with('videos', $videos)
@@ -80,8 +108,6 @@ class VideosController extends Controller
             abort(401);
 
         $bookmarked = Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists();
-
-        Log::debug($bookmarked);
 
         $video->filesize = Storage::disk('local')->size('public/' . $video->path);
 
