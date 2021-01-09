@@ -23,8 +23,9 @@ class VideosController extends Controller
         $videos = Video::query()
             ->where('class_key', $class_key)
             ->where('active', true)
-            ->groupBy('class', 'chapter_key', 'chapter')
-            ->select('class', 'chapter_key', 'chapter')
+            ->groupBy('class', 'chapter_id', 'chapter_key', 'chapter')
+            ->select('class', 'chapter_id', 'chapter_key', 'chapter')
+            ->orderBy('chapter_id')
             ->get();
 
         foreach ($videos as $video) {
@@ -52,7 +53,8 @@ class VideosController extends Controller
 
             $video->subtitles = $chapter_videos
                 ->toQuery()
-                ->groupBy('section')
+                ->groupBy('section_id', 'section')
+                ->orderBy('section_id')
                 ->get('section');
         }
 
@@ -67,8 +69,9 @@ class VideosController extends Controller
             ->where('class_key', $class_key)
             ->where('chapter_key', $chapter_key)
             ->where('active', true)
-            ->groupBy('chapter', 'section_key', 'section')
-            ->select('chapter', 'section_key', 'section')
+            ->groupBy('chapter', 'section_id', 'section_key', 'section')
+            ->select('chapter', 'section_id', 'section_key', 'section')
+            ->orderBy('section_id')
             ->get();
 
         foreach ($videos as $video) {
@@ -118,6 +121,7 @@ class VideosController extends Controller
             ->where('active', true)
             ->groupBy('section', 'video_id', 'title')
             ->select('section', 'video_id', 'title')
+            ->orderBy('video_id')
             ->get();
 
         return view('video.section')
