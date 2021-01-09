@@ -23,7 +23,9 @@ class CreateVideosTable extends Migration
             $table->boolean('active')->default(true);
             $table->text('path');
             $table->string('class_key');
+            $table->integer('chapter_id');
             $table->string('chapter_key');
+            $table->integer('section_id');
             $table->string('section_key');
             $table->timestamps();
         });
