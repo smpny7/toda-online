@@ -113,6 +113,16 @@
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
     <script>
+        window.addEventListener( "pageshow", function ( event ) {
+            const historyTraversal = event.persisted ||
+                ( typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+                window.location.reload();
+            }
+        });
+    </script>
+    <script>
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {

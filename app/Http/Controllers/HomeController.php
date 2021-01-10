@@ -18,17 +18,6 @@ class HomeController extends Controller
             if (isset($video->path)) {
                 $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
                 $video->duration = $media->getDurationInSeconds();
-
-                // TODO publicディレクトリに入っているファイルは誰でもアクセスできてしまうため、公開したくないファイルの場合は別途処理が必要
-                if (!Storage::disk('local')->exists('public/thumbnail/' . $video->id . '.jpg')) {
-                    FFMpeg::fromDisk('local')
-                        ->open('public/' . $video->path)
-                        ->getFrameFromSeconds($video->duration - 1)
-                        ->export()
-                        ->toDisk('local')
-                        ->save('public/thumbnail/' . $video->id . '.jpg');
-                }
-
                 $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
             }
         }

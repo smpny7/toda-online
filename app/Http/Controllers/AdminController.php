@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class AdminController extends Controller
 {
@@ -33,6 +34,25 @@ class AdminController extends Controller
         $videos = Video::get();
         return view('admin.video')
             ->with('videos', $videos);
+    }
+
+    public function createVideoThumbnail()
+    {
+        $videos = Video::query()
+            ->get();
+
+        foreach ($videos as $video) {
+            $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
+
+            FFMpeg::fromDisk('local')
+                ->open('public/' . $video->path)
+                ->getFrameFromSeconds($media->getDurationInSeconds() - 1)
+                ->export()
+                ->toDisk('local')
+                ->save('public/thumbnail/' . $video->id . '.jpg');
+        }
+
+        return view('admin.index');
     }
 
     public function updateStudent(Request $request, $id)

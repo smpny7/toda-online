@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/student/{id}', [AdminController::class, 'studentDetail'])->name('studentDetail');
         Route::get('/video', [AdminController::class, 'video'])->name('video');
 
+        Route::post('/createVideoThumbnail', [AdminController::class, 'createVideoThumbnail'])->name('createVideoThumbnail');
         Route::post('/updateStudent/{id}', [AdminController::class, 'updateStudent'])->name('updateStudent');
     });
 

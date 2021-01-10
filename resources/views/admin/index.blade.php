@@ -9,6 +9,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <a href="{{ route('admin.student') }}">生徒一覧</a>
             <a href="{{ route('admin.video') }}">映像一覧</a>
+            <form action="{{ route('admin.createVideoThumbnail') }}" method="POST">
+                @csrf
+                <button type="submit">サムネ生成</button>
+            </form>
         </div>
     </div>
 </x-app-layout>
