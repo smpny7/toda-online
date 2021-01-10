@@ -119,10 +119,32 @@ class VideosController extends Controller
             ->where('chapter_key', $chapter_key)
             ->where('section_key', $section_key)
             ->where('active', true)
-            ->groupBy('section', 'video_id', 'title')
-            ->select('section', 'video_id', 'title')
             ->orderBy('video_id')
             ->get();
+
+        foreach ($videos as $video) {
+            $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
+
+            $bookmarks = Bookmark::query()
+                ->where('user_id', Auth::id())
+                ->groupBy('video_id')
+                ->select('video_id')
+                ->get();
+
+            $histories = History::query()
+                ->where('user_id', Auth::id())
+                ->groupBy('video_id')
+                ->select('video_id')
+                ->get();
+
+            foreach ($bookmarks as $bookmark)
+                if ($video->id == $bookmark->video_id)
+                    $video->bookmark = true;
+
+            foreach ($histories as $history)
+                if ($video->id == $history->video_id)
+                    $video->history = true;
+        }
 
         return view('video.section')
             ->with('videos', $videos)
