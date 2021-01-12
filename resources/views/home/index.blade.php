@@ -54,7 +54,7 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 grid-rows-1 mx-7 sm:mx-auto">
                 {{-- とりあえず先頭から3件 --}}
                 @foreach($watch_next_videos as $video)
-                    @include('components.video-card', ['video' => $video])
+                    @include('components.video-card-old', ['video' => $video])
                 @endforeach
             </div>
         </div>

@@ -1,25 +1,13 @@
-<div>
-    <a href="{{ route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]) }}"
-       class="transition duration-500 block ease-in-out mt-4 mx-auto relative transform hover:scale-102">
-        <img class="border-2 border-themeColor rounded-lg" src="{{ $video->thumbnail }}" alt="{{ $video->title }}">
-        <p class="absolute bg-themeColor rounded-full font-bold px-3 py-0.5 text-white text-xs bottom-2 right-2">
-            @isset($video->duration) {{ TimeConversion::fromSecondsToMinutes($video->duration) }} @endisset
-        </p>
-    </a>
+<div class="bg-white col-span-1 mb-1 sm:mb-2 px-7 py-7 relative rounded-xl shadow-md">
     <div class="flex">
-        <div class="flex-grow mt-3 ml-3">
-            <div class="overflow-hidden">
-                <h3 class="font-bold text-gray-800 text-lg tracking-widest overflow-hidden truncate whitespace-nowrap">{{ $video->title }}</h3>
-            </div>
-            <div class="mt-1 overflow-hidden">
-                <p class="text-gray-600 text-sm tracking-widest overflow-hidden truncate whitespace-nowrap">
-                    {{ $video->class }} - {{ $video->chapter }} - {{ $video->section }}
-                </p>
-            </div>
-        </div>
-        <a href="{{ route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]) }}"
-           class="transition duration-500 block flex-none text-right mt-2 p-3 w-16 transform hover:scale-110">
-            <img src="{{ asset('img/play-button.png') }}" alt="PlayButton">
-        </a>
+        <h3 class="flex-grow font-bold pl-2 text-gray-800 text-2xl tracking-wider">{{ $video->title }}</h3>
+        <img
+            src="@if($video->bookmark) {{ asset('img/bookmark-f.png') }} @else {{ asset('img/bookmark.png') }} @endif"
+            class="flex-none h-6 mt-1 w-6" alt="Bookmark">
     </div>
+    <div class="ml-1 mt-5">
+        <img src="{{ $video->thumbnail }}" class="rounded-xl shadow-xl" alt="{{ $video->title }}">
+    </div>
+    <a class="@if($video->history) bg-gray-200 @else bg-themeColor @endif font-bold h-10 inline-block mt-6 pt-2 rounded-lg shadow-md text-center text-sm text-white tracking-widest w-full"
+       href="{{ route('show', ['class_key' => $class_key, 'chapter_key' => $chapter_key, 'section_key' => $section_key, 'video_id' => $video->video_id]) }}">視聴</a>
 </div>
