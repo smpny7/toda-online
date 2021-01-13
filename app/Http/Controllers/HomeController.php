@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
+use App\Models\History;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,9 +41,26 @@ class HomeController extends Controller
 
     public function watchList()
     {
-        $bookmarks = Bookmark::query()->where('user_id', Auth::id())->get();
+        $bookmarks = Bookmark::query()->where('user_id', Auth::id())->orderByDesc('created_at')->get();
+
+        foreach ($bookmarks as $bookmark) {
+            $bookmark->thumbnail = Storage::disk('local')->url('thumbnail/' . $bookmark->video->id . '.jpg');
+
+            $bookmark->title = $bookmark->video->title;
+            $bookmark->bookmark = true;
+
+            $histories = History::query()
+                ->where('user_id', Auth::id())
+                ->groupBy('video_id')
+                ->select('video_id')
+                ->get();
+
+            foreach ($histories as $history)
+                if ($bookmark->video->id == $history->video_id)
+                    $bookmark->history = true;
+        }
 
         return view('home.watchList')
-            ->with('bookmarks', $bookmarks);
+            ->with('videos', $bookmarks);
     }
 }
