@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreateComment;
 use App\Models\Bookmark;
 use App\Models\Comment;
 use App\Models\Explanation;
@@ -13,6 +14,7 @@ use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
@@ -230,6 +232,10 @@ class VideosController extends Controller
     {
         try {
             Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+            $comment = Comment::query()->latest()->first();
+            $admins = User::query()->where('grade', 0)->get();
+            foreach ($admins as $admin)
+                Mail::to($admin->email)->send(new CreateComment($comment));
             return json_encode(['success' => true, 'message' => ['Created Successfully!!!']]);
         } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
