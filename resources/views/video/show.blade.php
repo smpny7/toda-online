@@ -5,29 +5,29 @@
         </h2>
     </x-slot>
 
-    <div class="py-6">
+    <div class="sm:py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div id="alert" class="px-6 py-4 border-0 rounded-xl relative shadow mb-4 bg-white hidden">
+            <div id="alert" class="px-6 py-4 border-0 sm:rounded-xl relative shadow mb-4 mt-4 sm:mt-0 bg-white hidden">
                 <span class="text-xl inline-block align-middle">
                     <img id="alert-failed" src="{{ asset('img/alert-circle.png') }}" class="w-1/2 hidden" alt="Alert">
                     <img id="alert-success" src="{{ asset('img/check-circle.png') }}" class="w-1/2 hidden" alt="Check">
                 </span>
-                <span id="alert-message" class="inline-block align-middle"></span>
+                <span id="alert-message" class="inline-block align-middle text-sm"></span>
                 <button id="alert-hidden"
                         class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
                     <span>×</span>
                 </button>
             </div>
-            <div class="grid grid-cols-3 gap-6 mt-8">
+            <div class="grid grid-cols-3 gap-3 sm:gap-6 mt-4 sm:mt-8">
                 <div class="col-span-3 lg:col-span-2">
-                    <div class="h-113">
+                    <div class="h-auto lg:h-113">
                         <video id="video" src="{{ Storage::disk('local')->url($video->path) }}"
                                controlsList="nodownload" controls oncontextmenu="return false" preload="none"
-                               class="h-full rounded-xl shadow-xl w-full focus:outline-none"
+                               class="h-full sm:rounded-xl sm:shadow-xl w-full focus:outline-none"
                                poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
                     </div>
-                    <div class="bg-white grid grid-cols-12 mt-7 px-1 py-6 rounded-xl shadow-md">
-                        <div class="col-span-2">
+                    <div class="bg-white grid grid-cols-12 sm:mt-7 px-1 py-6 sm:rounded-xl shadow-md">
+                        <div class="col-span-3 sm:col-span-2">
                             <p class="pt-1 text-center">
                                 <span
                                     class="bg-themeColor font-semibold px-4 py-1 rounded-xl text-white tracking-widest">
@@ -35,8 +35,19 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="col-span-9">
+                        <div class="col-span-7 sm:col-span-9">
                             <h3 class="font-bold pl-3 text-2xl tracking-widest">{{ $video->title }}</h3>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <form class="h-7 ml-3 relative w-7 watch_later"
+                                  action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
+                                <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
+                                       @if($bookmarked) checked @endif disabled>
+                                <label for="bookmark" style="background-size: 30px"
+                                       class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
+                            </form>
+                        </div>
+                        <div class="col-span-12 sm:col-span-9 sm:col-start-3 ml-2 sm:ml-0">
                             <div class="mt-3 pl-3">
                                 <img src="{{ asset('img/file.png') }}" class="align-middle inline-block w-5" alt="File">
                                 <span
@@ -60,18 +71,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-1">
-                            <form class="h-1/2 ml-3 relative w-1/2 watch_later"
-                                  action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
-                                <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
-                                       @if($bookmarked) checked @endif disabled>
-                                <label for="bookmark" style="background-size: 30px"
-                                       class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
-                            </form>
-                        </div>
                     </div>
                 </div>
-                <div class="bg-white col-span-3 lg:col-span-1 h-150 relative rounded-xl shadow-md">
+
+                <div class="bg-white col-span-3 lg:col-span-1 h-150 relative sm:rounded-xl shadow-md">
                     <div class="absolute bg-white border-b-2 border-gray-200 h-16 rounded-t-xl top-0 w-full z-10">
                         <span class="inline-block ml-7 mt-5 tracking-widest text-lg">コミュニティ</span>
                     </div>
