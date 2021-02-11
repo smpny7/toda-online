@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'test',
-                'email' => 'test@toda-online.com',
+                'email' => 'test@example.com',
                 'email_verified_at' => now(),
                 'password' => '$2y$10$.vBmYboSAsyah45afwG1qe0gbt59aEbmdVkUnmyWQrJYrSaGlHDOC',
                 'remember_token' => Str::random(10),
