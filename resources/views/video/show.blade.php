@@ -21,7 +21,7 @@
             <div class="grid grid-cols-3 gap-6 mt-8">
                 <div class="col-span-3 lg:col-span-2">
                     <div class="h-113">
-                        <video id="video" src="{{ route('protection', ['video_id' => $video->id]) }}"
+                        <video id="video" src="{{ Storage::disk('local')->url($video->path) }}"
                                controlsList="nodownload" controls oncontextmenu="return false" preload="none"
                                class="h-full rounded-xl shadow-xl w-full focus:outline-none"
                                poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
@@ -113,11 +113,11 @@
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
     <script>
-        window.addEventListener( "pageshow", function ( event ) {
+        window.addEventListener("pageshow", function (event) {
             const historyTraversal = event.persisted ||
-                ( typeof window.performance != "undefined" &&
-                    window.performance.navigation.type === 2 );
-            if ( historyTraversal ) {
+                (typeof window.performance != "undefined" &&
+                    window.performance.navigation.type === 2);
+            if (historyTraversal) {
                 window.location.reload();
             }
         });

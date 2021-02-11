@@ -26,7 +26,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/watchList', [HomeController::class, 'watchList'])->name('watchList');
-    Route::get('/video/show/{video_id}', [VideosController::class, 'protection'])->name('protection');
 
     Route::post('/switchBookmark/{video_id}', [VideosController::class, 'switchBookmark'])->name('switchBookmark');
     Route::post('/createHistory/{video_id}', [VideosController::class, 'createHistory'])->name('createHistory');
