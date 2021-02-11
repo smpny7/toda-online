@@ -26,7 +26,7 @@
                         <img
                             src="@if($video->watched == 100) {{ asset('img/award-on.png') }} @else {{ asset('img/award-off.png') }} @endif"
                             class="float-right mt-3 w-7" alt="Award">
-                        <a class="absolute bottom-5 bg-themeColor font-bold h-10 inline-block pt-2 left-0 mx-auto rounded-lg right-0 shadow-md text-center text-sm text-white tracking-widest w-5/6"
+                        <a class="absolute bottom-5 bg-themeColor font-bold h-10 inline-block pt-2 left-0 mx-auto rounded-lg right-0 shadow-md text-center text-sm text-white transition duration-500 transform hover:scale-102 tracking-widest w-5/6"
                            href="{{ route('chapter', ['class_key' => $class_key, 'chapter_key' => $video->chapter_key]) }}">受講</a>
                     </div>
                 @endforeach

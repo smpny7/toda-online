@@ -33,7 +33,7 @@
                         </p>
                     </div>
                     <div class="md:flex md:flex-none md:flex-row h-9 mt-3 md:mt-0">
-                        <a class="bg-themeColor order-2 font-bold float-right h-9 inline-block pt-2 rounded-lg shadow-md text-center text-sm text-white tracking-widest w-24"
+                        <a class="bg-themeColor order-2 font-bold float-right h-9 inline-block pt-2 rounded-lg shadow-md text-center text-sm text-white transition duration-500 transform hover:scale-102 tracking-widest w-24"
                            href="{{ route('section', ['class_key' => $class_key, 'chapter_key' => $chapter_key, 'section_key' => $video['section_key']]) }}">選択</a>
                         <img
                             src="@if($video->watched == $video->all) {{ asset('img/award-on.png') }} @else {{ asset('img/award-off.png') }} @endif"
