@@ -10,17 +10,14 @@ use App\Models\History;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
-use http\Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class VideosController extends Controller
 {
-    public function class($class_key)
+    public function class($class_key): View
     {
         $videos = Video::query()
             ->where('class_key', $class_key)
@@ -65,7 +62,7 @@ class VideosController extends Controller
             ->with('class_key', $class_key);
     }
 
-    public function chapter($class_key, $chapter_key)
+    public function chapter($class_key, $chapter_key): View
     {
         $videos = Video::query()
             ->where('class_key', $class_key)
@@ -114,7 +111,7 @@ class VideosController extends Controller
             ->with('chapter_key', $chapter_key);
     }
 
-    public function section($class_key, $chapter_key, $section_key)
+    public function section($class_key, $chapter_key, $section_key): View
     {
         $videos = Video::query()
             ->where('class_key', $class_key)
@@ -124,30 +121,6 @@ class VideosController extends Controller
             ->orderBy('video_id')
             ->get();
 
-        foreach ($videos as $video) {
-            $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
-
-            $bookmarks = Bookmark::query()
-                ->where('user_id', Auth::id())
-                ->groupBy('video_id')
-                ->select('video_id')
-                ->get();
-
-            $histories = History::query()
-                ->where('user_id', Auth::id())
-                ->groupBy('video_id')
-                ->select('video_id')
-                ->get();
-
-            foreach ($bookmarks as $bookmark)
-                if ($video->id == $bookmark->video_id)
-                    $video->bookmark = true;
-
-            foreach ($histories as $history)
-                if ($video->id == $history->video_id)
-                    $video->history = true;
-        }
-
         return view('video.section')
             ->with('videos', $videos)
             ->with('class_key', $class_key)
@@ -155,7 +128,7 @@ class VideosController extends Controller
             ->with('section_key', $section_key);
     }
 
-    public function show($class_key, $chapter_key, $section_key, $video_id)
+    public function show($class_key, $chapter_key, $section_key, $video_id): View
     {
         $video = Video::query()
             ->where('class_key', $class_key)
@@ -163,54 +136,20 @@ class VideosController extends Controller
             ->where('section_key', $section_key)
             ->where('video_id', $video_id)
             ->where('active', true)
-            ->first();
+            ->firstOrFail();
 
-        if (!$video)
-            abort(401);
-
-        $bookmarked = Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video->id)->exists();
-
-        $video->filesize = Storage::disk('local')->size('public/' . $video->path);
-
-        $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
-        $video->duration = $media->getDurationInSeconds();
-
-        $video->watched = History::query()
-            ->where('user_id', Auth::id())
-            ->where('video_id', $video->id)
-            ->first();
-
-        $comment_count = Comment::query()
-            ->where('video_id', $video->id)
-            ->where('disabled', false)
-            ->count();
-
-        return view('video.show')
-            ->with('video', $video)
-            ->with('bookmarked', $bookmarked)
-            ->with('comment_count', $comment_count);
+        return view('video.show')->with('video', $video);
     }
 
-    public function protection($video_id)
+    public function switchBookmark($video_id): string
     {
-        $video = Video::findOrFail($video_id);
-
-        abort_if(!Storage::exists('public/' . $video->path), 404);
-
-        return response()->make(Storage::get('public/' . $video->path), 200, [
-            'Content-Type' => 'video/mp4',
-            'Content-Disposition' => 'inline; filename="' . 'public/' . $video->path . '"'
-        ]);
-    }
-
-    public function switchBookmark($video_id)
-    {
+        $video = Video::query()->findOrFail($video_id);
         try {
-            if (Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->exists()) {
+            if ($video->isBookmarked()) {
                 Bookmark::query()->where('user_id', Auth::id())->where('video_id', $video_id)->delete();
                 return json_encode(['success' => true, 'registered' => false]);
             } else {
-                Bookmark::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+                Bookmark::query()->create(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
                 return json_encode(['success' => true, 'registered' => true]);
             }
         } catch (\Exception $e) {
@@ -218,17 +157,17 @@ class VideosController extends Controller
         }
     }
 
-    public function createHistory($video_id)
+    public function createHistory($video_id): string
     {
         try {
-            History::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
+            History::query()->create(['user_id' => Auth::id(), 'video_id' => $video_id, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
             return json_encode(['success' => true]);
         } catch (\Exception $e) {
-            return json_encode(['success' => false]);
+            return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
         }
     }
 
-    public function createComment(Request $request, $video_id)
+    public function createComment(Request $request, $video_id): string
     {
         try {
             Comment::query()->insert(['user_id' => Auth::id(), 'video_id' => $video_id, 'message' => $request->message, 'created_at' => new Carbon(), 'updated_at' => new Carbon()]);
@@ -236,13 +175,13 @@ class VideosController extends Controller
             $admins = User::query()->where('grade', 0)->get();
             foreach ($admins as $admin)
                 Mail::to($admin->email)->send(new CreateComment($comment));
-            return json_encode(['success' => true, 'message' => ['Created Successfully!!!']]);
+            return json_encode(['success' => true]);
         } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);
         }
     }
 
-    public function getComments($video_id)
+    public function getComments($video_id): string
     {
         try {
             $comments = Comment::query()->where('video_id', $video_id)->where('disabled', false)->get();

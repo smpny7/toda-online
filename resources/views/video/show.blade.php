@@ -21,10 +21,10 @@
             <div class="grid grid-cols-3 gap-3 sm:gap-6 mt-4 sm:mt-8">
                 <div class="col-span-3 lg:col-span-2">
                     <div class="h-auto lg:h-113">
-                        <video id="video" src="{{ Storage::disk('local')->url($video->path) }}"
+                        <video id="video" src="{{ $video->getVideoPath() }}"
                                controlsList="nodownload" controls oncontextmenu="return false" preload="none"
                                class="h-full sm:rounded-xl sm:shadow-xl w-full focus:outline-none"
-                               poster="{{ Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg') }}"></video>
+                               poster="{{ $video->getThumbnailPath() }}"></video>
                     </div>
                     <div class="bg-white grid grid-cols-12 sm:mt-7 px-1 py-6 sm:rounded-xl shadow-md">
                         <div class="col-span-3 sm:col-span-2">
@@ -42,8 +42,8 @@
                             <form class="h-7 ml-3 relative w-7 watch_later"
                                   action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
                                 <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
-                                       @if($bookmarked) checked @endif disabled>
-                                <label for="bookmark" style="background-size: 30px"
+                                       @if($video->isBookmarked()) checked @endif disabled>
+                                <label for="bookmark" style="background-size: 1.75rem"
                                        class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
                             </form>
                         </div>
@@ -52,21 +52,21 @@
                                 <img src="{{ asset('img/file.png') }}" class="align-middle inline-block w-5" alt="File">
                                 <span
                                     class="align-middle font-semibold inline-block ml-2 text-gray-500 text-md">
-                                    {{ FileSizeConversion::formatBytes($video->filesize) }}
+                                    {{ $video->getFileSize() }}
                                 </span>
                                 <img src="{{ asset('img/clock.png') }}" class="align-middle inline-block ml-5 w-5"
                                      alt="Clock">
                                 <span
                                     class="align-middle font-semibold inline-block ml-2 text-gray-500 text-md">
-                                        {{ TimeConversion::fromSecondsToMinutes($video->duration) }}
+                                        {{ $video->getVideoDuration() }}
                                 </span>
                                 <div id="watched" class="inline-block">
                                     <img
-                                        src="@isset($video->watched) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endisset"
+                                        src="@if($video->isWatched()) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endif"
                                         class="align-middle inline-block ml-5 w-5" alt="Eye">
                                     <span
                                         class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
-                                        @isset($video->watched) 視聴済み @else 未視聴 @endisset
+                                        @if($video->isWatched()) 視聴済み @else 未視聴 @endif
                                     </span>
                                 </div>
                             </div>
@@ -79,11 +79,11 @@
                         <span class="inline-block ml-7 mt-5 tracking-widest text-lg">コミュニティ</span>
                     </div>
                     <div id="message" class="h-120 mt-16 overflow-y-scroll py-4 relative">
-                        @if($comment_count == 0)
+                        @if($video->getNumberOfComment() == 0)
                             <img src="{{ asset('img/no-message.png') }}"
                                  class="absolute bottom-0 left-0 m-auto right-0 top-0 w-1/2" alt="NoMessage">
                         @else
-                            @for($i=0; $i<$comment_count; $i++)
+                            @for($i=0; $i<$video->getNumberOfComment(); $i++)
                                 <div class="animate-pulse flex mb-3">
                                     <div class="bg-orange-100 flex-none inline-block h-12 ml-3 rounded-full w-12"></div>
                                     <div class="flex-grow pl-4 pr-2">

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
-use App\Models\History;
 use App\Models\Video;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,7 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $watch_next_videos = Video::orderBy('id', 'ASC')->take(3)->get();
         foreach ($watch_next_videos as $video) {
@@ -25,11 +26,12 @@ class HomeController extends Controller
         return view('home.index')->with('watch_next_videos', $watch_next_videos);
     }
 
-    public function search(Request $request)
+    public function search(Request $request): View
     {
         $keyword = $request->input('keyword');
 
-        $videos = Video::where('chapter', 'LIKE', "%{$keyword}%")
+        $videos = Video::query()
+            ->where('chapter', 'LIKE', "%{$keyword}%")
             ->orWhere('section', 'LIKE', "%{$keyword}%")
             ->orWhere('title', 'LIKE', "%{$keyword}%")
             ->get();
@@ -39,28 +41,11 @@ class HomeController extends Controller
             ->with('keyword', $keyword);
     }
 
-    public function watchList()
+    public function watchList(): View
     {
-        $bookmarks = Bookmark::query()->where('user_id', Auth::id())->orderByDesc('created_at')->get();
-
-        foreach ($bookmarks as $bookmark) {
-            $bookmark->thumbnail = Storage::disk('local')->url('thumbnail/' . $bookmark->video->id . '.jpg');
-
-            $bookmark->title = $bookmark->video->title;
-            $bookmark->bookmark = true;
-
-            $histories = History::query()
-                ->where('user_id', Auth::id())
-                ->groupBy('video_id')
-                ->select('video_id')
-                ->get();
-
-            foreach ($histories as $history)
-                if ($bookmark->video->id == $history->video_id)
-                    $bookmark->history = true;
-        }
+        $videos = Auth::user()->getBookmarkedVideos()->get();
 
         return view('home.watchList')
-            ->with('videos', $bookmarks);
+            ->with('videos', $videos);
     }
 }
