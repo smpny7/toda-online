@@ -19,21 +19,14 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
 </head>
-<body class="font-sans antialiased">
+<body x-data="{ open: false }" @keydown.escape="open = false" class="font-sans antialiased">
 
-@include('layouts.aside.index')
+@include('layouts.aside.index', ['position' => 'left'])
 
-<div class="flex-grow ml-80">
-    @livewire('navigation-dropdown')
+<div class="flex-grow xl:ml-80">
+    @include('layouts.aside.navigation-hamburger')
+    @include('layouts.aside.index', ['position' => 'right'])
 
-    <!-- Page Heading -->
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            {{ $header }}
-        </div>
-    </header>
-
-    <!-- Page Content -->
     <main>
         {{ $slot }}
     </main>
