@@ -59,17 +59,4 @@
             </div>
         </div>
     </div>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="font-semibold mx-7 sm:mx-0 text-xl text-gray-800 leading-tight">
-                {{ __('受講中の講座一覧') }}
-            </h3>
-            @foreach(config('const.CLASS') as $class_key => $class)
-                @if(Auth::user()->attendances()->first()->$class_key)
-                    @include('components.course-card', ['class' => $class, 'class_key' => $class_key])
-                @endif
-            @endforeach
-        </div>
-    </div>
 </x-app-layout>
