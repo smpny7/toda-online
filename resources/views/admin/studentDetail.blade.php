@@ -28,7 +28,7 @@
                     <label for="{{ $class_key }}" class="ml-3">{{ $class }}</label>
                     <select name="{{ $class_key }}" id="{{ $class_key }}" onchange="submit(this.form)">
                         @for($i=0; $i<=1; $i++)
-                            <option value="{{ $i }}" @if($student->$class_key == $i) selected @endif>
+                            <option value="{{ $i }}" @if($student->attendances->$class_key == $i) selected @endif>
                                 @if($i == 1) 受講中 @else 未受講 @endif
                             </option>
                         @endfor
