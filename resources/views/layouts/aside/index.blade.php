@@ -1,6 +1,6 @@
 <!-- Page Sidebar -->
 <aside class="h-screen overflow-hidden items-center justify-center fixed top-0 z-40 webkit-fill-available
-    @if($position == 'left') hidden xl:flex left-0 @elseif($position == 'right') xl:hidden right-0 @endif"
+    @if($position == 'left') hidden xl:flex left-0 @elseif($position == 'right') hidden xl:hidden right-0 @endif"
        style="min-height: calc(var(--vh, 1vh) * 100)"
        @if($position == 'right') id="nav-right" x-show="open" x-transition:enter="transition ease-out duration-300"
        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
