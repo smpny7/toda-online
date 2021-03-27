@@ -68,8 +68,8 @@ class VideosController extends Controller
             ->where('class_key', $class_key)
             ->where('chapter_key', $chapter_key)
             ->where('active', true)
-            ->groupBy('chapter', 'section_id', 'section_key', 'section')
-            ->select('chapter', 'section_id', 'section_key', 'section')
+            ->groupBy('class', 'class_key', 'chapter', 'chapter_key', 'section_id', 'section_key', 'section')
+            ->select('class', 'class_key', 'chapter', 'chapter_key', 'section_id', 'section_key', 'section')
             ->orderBy('section_id')
             ->get();
 

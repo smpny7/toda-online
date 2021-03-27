@@ -1,11 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $videos->first()->chapter }}
-        </h2>
-    </x-slot>
     <div class="py-6">
         <div class="max-w-7xl mb-8 mx-auto px-8">
+            @include('components.breadcrumbs', [
+                'first_link' => route('class', ['class_key' => $videos->first()->class_key]),
+                'first_label' => $videos->first()->class,
+                'last_link' => route('chapter', ['class_key' => $videos->first()->class_key, 'chapter_key' => $videos->first()->chapter_key]),
+                'last_label' => $videos->first()->chapter
+            ])
+
             @empty(!$explanation->data)
                 <div class="bg-white flex mb-6 sm:mb-12 mt-4 sm:mt-8 px-8 sm:px-16 py-8 rounded-lg shadow-md">
                     <div class="flex-grow">
@@ -17,6 +19,7 @@
                     </div>
                 </div>
             @endempty
+
             @foreach($videos as $video)
                 <div class="bg-white md:flex mt-4 px-5 sm:px-10 py-4 rounded-lg shadow-md">
                     <div class="flex-grow inline-block">

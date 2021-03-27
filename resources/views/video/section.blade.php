@@ -1,12 +1,15 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $videos->first()->section }}
-        </h2>
-    </x-slot>
-
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-8">
+            @include('components.breadcrumbs', [
+                'first_link' => route('class', ['class_key' => $videos->first()->class_key]),
+                'first_label' => $videos->first()->class,
+                'second_link' => route('chapter', ['class_key' => $videos->first()->class_key, 'chapter_key' => $videos->first()->chapter_key]),
+                'second_label' => $videos->first()->chapter,
+                'last_link' => route('section', ['class_key' => $videos->first()->class_key, 'chapter_key' => $videos->first()->chapter_key, 'section_key' => $videos->first()->section_key]),
+                'last_label' => $videos->first()->section
+            ])
+
             <div id="alert" class="px-6 py-4 border-0 sm:rounded-xl relative shadow mb-4 mt-4 sm:mt-0 bg-white hidden">
                 <span class="text-xl inline-block align-middle">
                     <img id="alert-failed" src="{{ asset('img/alert-circle.png') }}" class="w-1/2 hidden" alt="Alert">
@@ -18,6 +21,7 @@
                     <span>×</span>
                 </button>
             </div>
+
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 sm:mt-8">
                 @foreach($videos as $video)
                     @include('components.video-card', ['video' => $video])

@@ -1,5 +1,5 @@
-<li class="my-px">
-    <a href="{{ $link }}" class="flex flex-row items-center h-12 px-4 rounded-lg
+<li class="my-0.5">
+    <a href="{{ $link }}" class="flex flex-row items-center h-12 px-4 rounded-2xl
             @if($active) bg-gray-100 text-gray-600 @else hover:bg-gray-700 text-gray-500 @endif">
         <span class="flex items-center justify-center text-lg {{ $icon_color }}">{!! $icon !!}</span>
         <span class="ml-3">{{ $label }}</span>
