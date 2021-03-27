@@ -1,15 +1,21 @@
 <!-- Page Sidebar -->
-<aside class="h-screen overflow-hidden items-center justify-center fixed top-0 z-40
+<aside class="h-screen overflow-hidden items-center justify-center fixed top-0 z-40 webkit-fill-available
     @if($position == 'left') hidden xl:flex left-0 @elseif($position == 'right') xl:hidden right-0 @endif"
-    @if($position == 'right') x-show="open" @endif>
+       style="min-height: calc(var(--vh, 1vh) * 100)"
+       @if($position == 'right') id="nav-right" x-show="open" x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+       x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+       x-transition:leave-end="opacity-0" @endif xmlns:x-transition="">
     <div class="flex items-center justify-center xl:py-6 w-80">
-        <div class="h-screen flex w-full max-w-xs p-4 bg-gray-800">
+        <div class="h-screen flex w-full max-w-xs p-4 bg-gray-800 webkit-fill-available"
+             style="min-height: calc(var(--vh, 1vh) * 100)">
             <ul class="flex flex-col w-full">
 
                 <div class="border-b-2 border-gray-500 pb-3">
                     <a href="{{ route('home') }}" class="px-2">
                         <x-jet-application-mark/>
-                        <h1 class="inline-block text-lg text-gray-100 tracking-wider ml-2 relative top-0.5">戸田塾オンライン</h1>
+                        <h1 class="inline-block text-lg text-gray-100 tracking-wider ml-2 relative top-0.5">
+                            戸田塾オンライン</h1>
                     </a>
                 </div>
 

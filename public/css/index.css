@@ -1,27 +1,8 @@
-.nav-link-after::after {
-    background: #FF9113;
-    border-radius: 2px;
-    content: "";
-    height: 3px;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-    top: 70%;
-    width: 3px;
-}
-
-.nav-link-hover:hover::after {
-    background: #6b7280;
-    border-radius: 2px;
-    content: "";
-    height: 3px;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-    top: 70%;
-    width: 3px;
+@supports (-webkit-touch-callout: none) {
+    .webkit-fill-available {
+        /* The hack for Safari */
+        height: -webkit-fill-available;
+    }
 }
 
 .watch_later input[type="checkbox"] + label {

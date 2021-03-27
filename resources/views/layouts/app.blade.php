@@ -35,6 +35,16 @@
 
     @livewireScripts
 </div>
-
+<script>
+    const setFillHeight = () => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', setFillHeight);
+    setFillHeight();
+    window.onload = function () {
+        document.getElementById('nav-right').classList.remove('hidden');
+    };
+</script>
 </body>
 </html>

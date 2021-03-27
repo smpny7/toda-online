@@ -1,4 +1,4 @@
-<div class="fixed right-0 top-0 xl:hidden sm:max-w-xl mx-auto py-3 z-50">
+<div class="fixed right-3 top-2 xl:hidden sm:max-w-xl mx-auto py-3 z-50">
     <nav>
         <button class="h-10 w-10 relative focus:outline-none" @click="open = !open">
             <span class="sr-only">Open main menu</span>
