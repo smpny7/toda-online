@@ -7,7 +7,18 @@
 
     <div class="sm:py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div id="alert" class="px-6 py-4 border-0 sm:rounded-xl relative shadow mb-4 mt-4 sm:mt-0 bg-white hidden">
+            @include('components.breadcrumbs', [
+                'first_link' => route('class', ['class_key' => $video->class_key]),
+                'first_label' => $video->class,
+                'second_link' => route('chapter', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key]),
+                'second_label' => $video->chapter,
+                'third_link' => route('section', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key]),
+                'third_label' => $video->section,
+                'last_link' => route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]),
+                'last_label' => $video->title
+            ])
+
+            <div id="alert" class="px-6 py-4 border-0 sm:rounded-xl relative shadow mb-4 mt-8 sm:mt-0 bg-white hidden">
                 <span class="text-xl inline-block align-middle">
                     <img id="alert-failed" src="{{ asset('img/alert-circle.png') }}" class="w-1/2 hidden" alt="Alert">
                     <img id="alert-success" src="{{ asset('img/check-circle.png') }}" class="w-1/2 hidden" alt="Check">

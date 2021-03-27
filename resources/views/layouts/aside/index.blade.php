@@ -110,9 +110,14 @@
                             'icon' => '<svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6"><path d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>',
                             'icon_color' => 'text-red-400',
                             'label' => 'ログアウト',
-                            'link' => route('logout')
+                            'link' => route('logout'),
+                            'logout' => true
                         ])
                     @endif
+
+                    <form id="logout-form" class="hidden" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                    </form>
                 </div>
             </ul>
         </div>
