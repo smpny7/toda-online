@@ -36,7 +36,7 @@
 
                 <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
 
-                <div class="sm:bg-white grid grid-cols-12 sm:mt-7 px-1 py-6 sm:rounded-3xl sm:shadow-md">
+                <div class="sm:bg-white grid grid-cols-12 text-sm sm:text-base sm:mt-7 px-1 py-6 sm:rounded-3xl sm:shadow-md">
                     <div class="col-span-3 sm:col-span-2">
                         <p class="pt-1 text-center">
                             <span
@@ -46,7 +46,7 @@
                         </p>
                     </div>
                     <div class="col-span-7 sm:col-span-9">
-                        <h3 class="font-bold pl-3 text-2xl tracking-widest">{{ $video->title }}</h3>
+                        <h3 class="font-bold pl-3 text-xl sm:text-2xl tracking-widest">{{ $video->title }}</h3>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <form class="h-7 ml-3 relative w-7 watch_later"
@@ -62,20 +62,20 @@
                         <div class="mt-3 pl-3">
                             <img src="{{ asset('img/file.png') }}" class="align-middle inline-block w-5" alt="File">
                             <span
-                                class="align-middle font-semibold inline-block ml-2 text-gray-500 text-md">
+                                class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm sm:text-base">
                                     {{ $video->getFileSize() }}
                                 </span>
                             <img src="{{ asset('img/clock.png') }}" class="align-middle inline-block ml-5 w-5"
                                  alt="Clock">
                             <span
-                                class="align-middle font-semibold inline-block ml-2 text-gray-500 text-md">
+                                class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm sm:text-base">
                                         {{ $video->getVideoDuration() }}
                                 </span>
                             <div id="watched" class="inline-block">
                                 <img
                                     src="@if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endif"
                                     class="align-middle inline-block ml-5 w-5" alt="Eye">
-                                <span class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
+                                <span class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm sm:text-base">
                                     @if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) 視聴済み @else
                                         未視聴 @endif
                                 </span>

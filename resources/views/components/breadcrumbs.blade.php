@@ -1,4 +1,4 @@
-<nav class="text-black font-bold my-8" aria-label="Breadcrumb">
+<nav class="text-black font-bold mx-3 sm:mx-0 my-8" aria-label="Breadcrumb">
     <ol class="list-none p-0 inline-flex">
         @isset($first_label)
             <li class="flex items-center">
