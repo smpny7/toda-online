@@ -41,7 +41,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/student', [AdminController::class, 'student'])->name('student');
         Route::get('/student/{id}', [AdminController::class, 'studentDetail'])->name('studentDetail');
         Route::get('/video', [AdminController::class, 'video'])->name('video');
+        Route::get('/share/{video_id}', [ShareController::class, 'create'])->name('share.create');
 
+        Route::post('/createShareLink/{video_id}', [ShareController::class, 'createShareLink'])->name('createShareLink');
         Route::post('/createVideoThumbnail', [AdminController::class, 'createVideoThumbnail'])->name('createVideoThumbnail');
         Route::post('/updateStudent/{id}', [AdminController::class, 'updateStudent'])->name('updateStudent');
     });

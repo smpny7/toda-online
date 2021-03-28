@@ -1,15 +1,10 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('コンソール画面') }}
-        </h2>
-    </x-slot>
 
-    <div class="bg-repeat py-12" style="background-image: url({{ asset('img/home-background.png') }})">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{ route('admin.student') }}">生徒一覧</a>
-            <a href="{{ route('admin.video') }}">映像一覧</a>
-            <form action="{{ route('admin.createVideoThumbnail') }}" method="POST">
+            <a href="{{ route('admin.student') }}" class="block mb-2">生徒一覧</a>
+            <a href="{{ route('admin.video') }}" class="block mb-2">映像一覧</a>
+            <form action="{{ route('admin.createVideoThumbnail') }}" class="mb-2" method="POST">
                 @csrf
                 <button type="submit">サムネ生成</button>
             </form>
