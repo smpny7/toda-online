@@ -52,7 +52,8 @@
                         <form class="h-7 ml-3 relative w-7 watch_later"
                               action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
                             <input id="bookmark" type="checkbox" class="absolute h-full opacity-0 w-full"
-                                   @if($video->isBookmarked()) checked @endif disabled>
+                                   @if(\Illuminate\Support\Facades\Auth::check() && $video->isBookmarked()) checked
+                                   @endif disabled>
                             <label for="bookmark" style="background-size: 1.75rem"
                                    class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
                         </form>
@@ -72,51 +73,51 @@
                                 </span>
                             <div id="watched" class="inline-block">
                                 <img
-                                    src="@if($video->isWatched()) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endif"
+                                    src="@if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endif"
                                     class="align-middle inline-block ml-5 w-5" alt="Eye">
-                                <span
-                                    class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
-                                        @if($video->isWatched()) 視聴済み @else 未視聴 @endif
-                                    </span>
+                                <span class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm">
+                                    @if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) 視聴済み @else
+                                        未視聴 @endif
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-{{--                <div class="bg-white h-150 relative sm:rounded-xl shadow-md">--}}
-{{--                    <div class="absolute bg-white border-b-2 border-gray-200 h-16 rounded-t-xl top-0 w-full z-10">--}}
-{{--                        <span class="inline-block ml-7 mt-5 tracking-widest text-lg">コミュニティ</span>--}}
-{{--                    </div>--}}
-{{--                    <div id="message" class="h-120 mt-16 overflow-y-scroll py-4 relative">--}}
-{{--                        @if($video->getNumberOfComment() == 0)--}}
-{{--                            <img src="{{ asset('img/no-message.png') }}"--}}
-{{--                                 class="absolute bottom-0 left-0 m-auto right-0 top-0 w-1/2" alt="NoMessage">--}}
-{{--                        @else--}}
-{{--                            @for($i=0; $i<$video->getNumberOfComment(); $i++)--}}
-{{--                                <div class="animate-pulse flex mb-3">--}}
-{{--                                    <div class="bg-orange-100 flex-none inline-block h-12 ml-3 rounded-full w-12"></div>--}}
-{{--                                    <div class="flex-grow pl-4 pr-2">--}}
-{{--                                        <div>--}}
-{{--                                            <div class="bg-orange-100 h-3 inline-block rounded w-1/4"></div>--}}
-{{--                                            <div class="bg-orange-100 h-3 inline-block rounded pl-2 w-1/6"></div>--}}
-{{--                                        </div>--}}
-{{--                                        <p class="bg-orange-100 h-5 inline-block rounded w-11/12"></p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @endfor--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
-{{--                    <div class="absolute bottom-0 bg-white h-16 rounded-b-xl w-full z-10">--}}
-{{--                        <form class="mt-3 relative"--}}
-{{--                              action="{{ route('createComment', ['video_id' => $video->id]) }}" method="POST">--}}
-{{--                            <input id="input-comment" name="message" type="text" placeholder="メッセージを送信" required--}}
-{{--                                   class="absolute bg-gray-100 h-10 left-0 m-auto pl-5 pr-10 right-0 rounded-xl text-gray-600 text-sm w-11/12 focus:outline-none">--}}
-{{--                            <button id="create-comment" type="submit" class="absolute right-3 top-3 focus:outline-none">--}}
-{{--                                <img src="{{ asset('img/send.png') }}" class="w-1/2" alt="Send">--}}
-{{--                            </button>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                <div class="bg-white h-150 relative sm:rounded-xl shadow-md">--}}
+                {{--                    <div class="absolute bg-white border-b-2 border-gray-200 h-16 rounded-t-xl top-0 w-full z-10">--}}
+                {{--                        <span class="inline-block ml-7 mt-5 tracking-widest text-lg">コミュニティ</span>--}}
+                {{--                    </div>--}}
+                {{--                    <div id="message" class="h-120 mt-16 overflow-y-scroll py-4 relative">--}}
+                {{--                        @if($video->getNumberOfComment() == 0)--}}
+                {{--                            <img src="{{ asset('img/no-message.png') }}"--}}
+                {{--                                 class="absolute bottom-0 left-0 m-auto right-0 top-0 w-1/2" alt="NoMessage">--}}
+                {{--                        @else--}}
+                {{--                            @for($i=0; $i<$video->getNumberOfComment(); $i++)--}}
+                {{--                                <div class="animate-pulse flex mb-3">--}}
+                {{--                                    <div class="bg-orange-100 flex-none inline-block h-12 ml-3 rounded-full w-12"></div>--}}
+                {{--                                    <div class="flex-grow pl-4 pr-2">--}}
+                {{--                                        <div>--}}
+                {{--                                            <div class="bg-orange-100 h-3 inline-block rounded w-1/4"></div>--}}
+                {{--                                            <div class="bg-orange-100 h-3 inline-block rounded pl-2 w-1/6"></div>--}}
+                {{--                                        </div>--}}
+                {{--                                        <p class="bg-orange-100 h-5 inline-block rounded w-11/12"></p>--}}
+                {{--                                    </div>--}}
+                {{--                                </div>--}}
+                {{--                            @endfor--}}
+                {{--                        @endif--}}
+                {{--                    </div>--}}
+                {{--                    <div class="absolute bottom-0 bg-white h-16 rounded-b-xl w-full z-10">--}}
+                {{--                        <form class="mt-3 relative"--}}
+                {{--                              action="{{ route('createComment', ['video_id' => $video->id]) }}" method="POST">--}}
+                {{--                            <input id="input-comment" name="message" type="text" placeholder="メッセージを送信" required--}}
+                {{--                                   class="absolute bg-gray-100 h-10 left-0 m-auto pl-5 pr-10 right-0 rounded-xl text-gray-600 text-sm w-11/12 focus:outline-none">--}}
+                {{--                            <button id="create-comment" type="submit" class="absolute right-3 top-3 focus:outline-none">--}}
+                {{--                                <img src="{{ asset('img/send.png') }}" class="w-1/2" alt="Send">--}}
+                {{--                            </button>--}}
+                {{--                        </form>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
             </div>
         </div>
     </div>
