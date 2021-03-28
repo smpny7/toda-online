@@ -19,7 +19,16 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
 </head>
-<body x-data="{ open: false }" @keydown.escape="open = false" class="font-sans antialiased bg-gray-50">
+
+<header class="bg-white h-16 fixed xl:hidden shadow top-0 w-full z-40">
+    <a href="{{ route('home') }}" class="block ml-3 mt-2 px-2">
+        <x-jet-application-mark/>
+        <h1 class="inline-block text-lg tracking-wider ml-2 relative top-0.5">
+            戸田塾オンライン</h1>
+    </a>
+</header>
+
+<body x-data="{ open: false }" @keydown.escape="open = false" class="font-sans antialiased bg-gray-50 pt-16 xl:pt-0">
 
 @include('layouts.aside.index', ['position' => 'left'])
 

@@ -11,7 +11,7 @@
              style="min-height: calc(var(--vh, 1vh) * 100)">
             <ul class="flex flex-col w-full">
 
-                <div class="border-b-2 border-gray-500 pb-3">
+                <div class="hidden xl:block border-b-2 border-gray-500 pb-3">
                     <a href="{{ route('home') }}" class="px-2">
                         <x-jet-application-mark/>
                         <h1 class="inline-block text-lg text-gray-100 tracking-wider ml-2 relative top-0.5">
