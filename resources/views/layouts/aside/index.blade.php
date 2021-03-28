@@ -19,7 +19,7 @@
                     </a>
                 </div>
 
-                <div class="mt-6 h-screen overflow-y-scroll">
+                <div class="mt-12 xl:mt-6 h-screen overflow-y-scroll">
                     {{-- ホーム --}}
                     @include('layouts.aside.navigation-link', [
                         'active' => request()->routeIs('home'),
