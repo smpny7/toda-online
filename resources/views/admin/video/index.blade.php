@@ -20,7 +20,7 @@
 
 <x-app-layout>
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
             @include('components.breadcrumbs', [
                 'first_link' => route('admin.index'),
                 'first_label' => '管理者ページ',
@@ -32,23 +32,23 @@
                 <table class="min-w-max w-full table-auto">
                     <thead>
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">教科</th>
-                        <th class="py-3 px-6 text-left">章</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell">教科</th>
+                        <th class="py-3 px-6 text-left hidden md:table-cell">章</th>
                         <th class="py-3 px-6 text-left">節</th>
                         <th class="py-3 px-6 text-left">タイトル</th>
-                        <th class="py-3 px-6 text-center">状態</th>
+                        <th class="py-3 px-6 text-center hidden sm:table-cell">状態</th>
                         <th class="py-3 px-6 text-center">その他</th>
                     </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm font-light">
                     @foreach($videos as $video)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <td class="py-3 px-6 text-left whitespace-nowrap hidden lg:table-cell">
                                 <div class="flex items-center">
                                     <span>{{ $video->class }}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-left whitespace-nowrap">
+                            <td class="py-3 px-6 text-left whitespace-nowrap hidden md:table-cell">
                                 <div class="flex items-center">
                                     <span>{{ $video->chapter }}</span>
                                 </div>
@@ -63,7 +63,7 @@
                                     <span>{{ $video->title }}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 px-6 text-center hidden sm:table-cell">
                                 @if($video->active)
                                     <span
                                         class="bg-orange-400 font-bold text-white py-1 px-3 rounded-full text-xs">表示中</span>

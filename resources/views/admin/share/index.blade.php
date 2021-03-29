@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
             @include('components.breadcrumbs', [
                 'first_link' => route('admin.index'),
                 'first_label' => '管理者ページ',
@@ -13,8 +13,8 @@
                     <thead>
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left">タイトル</th>
-                        <th class="py-3 px-6 text-left">講座名</th>
-                        <th class="py-3 px-6 text-left">リンク</th>
+                        <th class="py-3 px-6 text-left hidden sm:table-cell">講座名</th>
+                        <th class="py-3 px-6 text-left hidden lg:table-cell">リンク</th>
                         <th class="py-3 px-6 text-center">状態</th>
                         <th class="py-3 px-6 text-center">その他</th>
                     </tr>
@@ -27,29 +27,33 @@
                                     <span class="font-medium">{{ $share->title }}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-left">
+                            <td class="py-3 px-6 text-left hidden sm:table-cell">
                                 <div class="flex items-center">
                                     <span class="mr-3">{{ $share->video->section }}</span>
                                     <span>{{ $share->video->title }}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-left">
+                            <td class="py-3 px-6 text-left hidden lg:table-cell">
                                 <div class="flex items-center">
                                     <a target="_blank" rel="noopener noreferrer"
                                        @if(new DateTime($share->started_at) > new DateTime('now') || new DateTime($share->ended_at) < new DateTime('now') )
                                        class="text-gray-400"
                                        @else
                                        href="{{ route('share.show', ['id' => $share->url]) }}" class="text-themeColor"
-                                        @endif>{{ route('share.show', ['id' => $share->url]) }}</a>
+                                        @endif>{{ substr(route('share.show', ['id' => $share->url]), 0, 35) . '...' }}</a>
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 @if(new DateTime($share->started_at) > new DateTime('now') || new DateTime($share->ended_at) < new DateTime('now'))
                                     <span
-                                        class="bg-gray-400 font-bold text-white py-1 px-3 rounded-full text-xs">無効</span>
+                                        class="bg-gray-400 inline-block sm:inline font-bold text-white py-1 px-1 sm:px-3 rounded-full text-xs">
+                                        <span class="hidden sm:inline">無効</span>
+                                    </span>
                                 @else
                                     <span
-                                        class="bg-orange-400 font-bold text-white py-1 px-3 rounded-full text-xs">有効</span>
+                                        class="bg-orange-400 inline-block sm:inline font-bold text-white py-1 px-1 sm:px-3 rounded-full text-xs">
+                                        <span class="hidden sm:inline">有効</span>
+                                    </span>
                                 @endif
                             </td>
                             <td class="py-3 px-6 text-center">
