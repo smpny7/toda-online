@@ -7,15 +7,16 @@ use App\Models\Video;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
 
 class ShareController extends Controller
 {
-    /**
-     * @param $id
-     * @return View
-     */
-    public function index($id): View
+    public function index(): View
+    {
+        $shares = Share::query()->with('video')->get();
+        return view('admin.share.index')->with('shares', $shares);
+    }
+
+    public function show($id): View
     {
         $share = Share::query()->where('url', $id)->with('video')->firstOrFail();
         if(new DateTime($share->started_at) > new DateTime('now') || new DateTime($share->ended_at) < new DateTime('now'))
@@ -56,5 +57,13 @@ class ShareController extends Controller
         return view('admin.shareCreate', ['video_id' => $video_id])
             ->with('video', $video)
             ->with('url', $url);
+    }
+
+    public function delete($id): View
+    {
+        Share::query()->findOrFail($id)->delete();
+
+        $shares = Share::query()->with('video')->get();
+        return view('admin.share.index')->with('shares', $shares);
     }
 }

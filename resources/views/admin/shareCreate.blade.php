@@ -23,8 +23,8 @@
                 <div class="mt-4">
                     <p>
                         <span class="mr-2">今回発行されたURL:</span>
-                        <a href="{{ route('share', ['id' => $url]) }}" target="_blank" rel="noopener noreferrer"
-                           class="text-themeColor">{{ route('share', ['id' => $url]) }}</a>
+                        <a href="{{ route('share.show', ['id' => $url]) }}" target="_blank" rel="noopener noreferrer"
+                           class="text-themeColor">{{ route('share.show', ['id' => $url]) }}</a>
                     </p>
                     <a href="{{ route('admin.video') }}" class="text-themeColor">戻る</a>
                 </div>
