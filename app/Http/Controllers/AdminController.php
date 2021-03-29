@@ -31,7 +31,7 @@ class AdminController extends Controller
     public function video()
     {
         $videos = Video::query()->get();
-        return view('admin.video')
+        return view('admin.video.index')
             ->with('videos', $videos);
     }
 

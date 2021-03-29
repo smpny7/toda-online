@@ -53,10 +53,8 @@ class ShareController extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
 
-        $video = Video::query()->findOrFail($video_id);
-        return view('admin.shareCreate', ['video_id' => $video_id])
-            ->with('video', $video)
-            ->with('url', $url);
+        $shares = Share::query()->with('video')->get();
+        return view('admin.share.index')->with('shares', $shares);
     }
 
     public function delete($id): View
