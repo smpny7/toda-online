@@ -16,6 +16,7 @@ class CreateSharesTable extends Migration
         Schema::create('shares', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('video_id');
+            $table->string('title');
             $table->bigInteger('views');
             $table->string('url')->unique();
             $table->dateTime('started_at');

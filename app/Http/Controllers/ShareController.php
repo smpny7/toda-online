@@ -43,6 +43,7 @@ class ShareController extends Controller
         $url = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 36);
         Share::query()->insert([
             'video_id' => $video_id,
+            'title' => $request->title,
             'views' => 0,
             'url' => $url,
             'started_at' => $request->start,
