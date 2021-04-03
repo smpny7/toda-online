@@ -10,6 +10,8 @@ class Share extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id', 'email', 'password'];
+
     /**
      * Get the attendance record associated with the user.
      */

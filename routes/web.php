@@ -23,7 +23,7 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
-Route::get('/share/{id}', [ShareController::class, 'show'])->name('share.show');
+Route::resource('share', ShareController::class)->only('show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -42,11 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/student/{id}', [AdminController::class, 'studentDetail'])->name('studentDetail');
         Route::get('/video', [AdminController::class, 'video'])->name('video');
 
-        Route::get('/share', [ShareController::class, 'index'])->name('share.index');
-        Route::get('/share/{video_id}', [ShareController::class, 'create'])->name('share.create');
-        Route::post('/share/delete/{id}', [ShareController::class, 'delete'])->name('share.delete');
+        Route::resource('share', ShareController::class)->except('show');
 
-        Route::post('/createShareLink/{video_id}', [ShareController::class, 'createShareLink'])->name('createShareLink');
         Route::post('/createVideoThumbnail', [AdminController::class, 'createVideoThumbnail'])->name('createVideoThumbnail');
         Route::post('/updateStudent/{id}', [AdminController::class, 'updateStudent'])->name('updateStudent');
     });

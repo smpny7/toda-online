@@ -39,8 +39,9 @@
                                        @if(new DateTime($share->started_at) > new DateTime('now') || new DateTime($share->ended_at) < new DateTime('now') )
                                        class="text-gray-400"
                                        @else
-                                       href="{{ route('share.show', ['id' => $share->url]) }}" class="text-themeColor"
-                                        @endif>{{ substr(route('share.show', ['id' => $share->url]), 0, 35) . '...' }}</a>
+                                       href="{{ route('share.show', ['share' => $share->url]) }}"
+                                       class="text-themeColor"
+                                        @endif>{{ substr(route('share.show', ['share' => $share->url]), 0, 35) . '...' }}</a>
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
@@ -58,7 +59,7 @@
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">
-                                    <a href="{{ route('share.show', ['id' => $share->url]) }}"
+                                    <a href="{{ route('share.show', ['share' => $share->url]) }}"
                                        target="_blank" rel="noopener noreferrer"
                                        class="block w-4 mr-2 transform hover:text-themeColor hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -69,14 +70,14 @@
                                                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                         </svg>
                                     </a>
-                                    <div class="w-4 mr-2 transform hover:text-themeColor hover:scale-110">
+                                    <a href="{{ route('admin.share.edit', ['share' => $share->id]) }}" class="block w-4 mr-2 transform hover:text-themeColor hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                                         </svg>
-                                    </div>
-                                    <a class="block w-4 mr-2 transform hover:text-themeColor hover:scale-110"
+                                    </a>
+                                    <a class="block cursor-pointer w-4 mr-2 transform hover:text-themeColor hover:scale-110"
                                        onclick="event.preventDefault(); document.getElementById('delete-form').submit()">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke="currentColor">
@@ -84,9 +85,9 @@
                                                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
                                     </a>
-                                    <form id="delete-form" class="hidden"
-                                          action="{{ route('admin.share.delete', ['id' => $share->id]) }}"
-                                          method="POST">
+                                    <form id="delete-form" class="hidden" method="POST"
+                                          action="{{ route('admin.share.destroy', ['share' => $share->id]) }}">
+                                        @method('DELETE')
                                         @csrf
                                     </form>
                                 </div>
