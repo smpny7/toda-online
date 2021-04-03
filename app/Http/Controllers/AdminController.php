@@ -40,10 +40,10 @@ class AdminController extends Controller
         $videos = Video::query()->get();
 
         foreach ($videos as $video) {
-            $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
+            $media = FFMpeg::fromDisk('local')->open('public/' . $video->file_path);
 
             FFMpeg::fromDisk('local')
-                ->open('public/' . $video->path)
+                ->open('public/' . $video->file_path)
                 ->getFrameFromSeconds($media->getDurationInSeconds() - 1)
                 ->export()
                 ->toDisk('local')

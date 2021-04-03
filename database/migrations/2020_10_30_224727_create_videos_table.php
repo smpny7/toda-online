@@ -21,7 +21,7 @@ class CreateVideosTable extends Migration
             $table->string('title');
             $table->integer('video_id');
             $table->boolean('active')->default(true);
-            $table->text('path');
+            $table->text('file_path');
             $table->string('class_key');
             $table->integer('chapter_id');
             $table->string('chapter_key');

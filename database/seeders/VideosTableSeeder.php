@@ -19,9 +19,9 @@ class VideosTableSeeder extends Seeder
         $file = new SplFileObject('database/csv/videos.csv');
         $file->setFlags(
             \SplFileObject::READ_CSV |
-                \SplFileObject::READ_AHEAD |
-                \SplFileObject::SKIP_EMPTY |
-                \SplFileObject::DROP_NEW_LINE
+            \SplFileObject::READ_AHEAD |
+            \SplFileObject::SKIP_EMPTY |
+            \SplFileObject::DROP_NEW_LINE
         );
         $lists = [];
         foreach ($file as $line) {
@@ -36,7 +36,7 @@ class VideosTableSeeder extends Seeder
                 'section_key' => $line[7],
                 'video_id' => $line[8],
                 'title' => $line[9],
-                'path' => 'video/' . $line[1] . '/' . $line[4] . '/' . $line[7] . '/'  . $line[8] . '.mp4',
+                'file_path' => 'video/' . $line[1] . '/' . $line[4] . '/' . $line[7] . '/' . $line[8] . '.mp4',
                 'created_at' => new Carbon(),
                 'updated_at' => new Carbon(),
             ];

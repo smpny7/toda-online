@@ -185,8 +185,8 @@ class VideosController extends Controller
     {
         try {
             $comments = Comment::query()->where('video_id', $video_id)->where('disabled', false)->get();
-            foreach ($comments as $comment)
-                $comment->user = User::query()->findOrFail($comment->user_id);
+//            foreach ($comments as $comment)
+//                $comment->user = User::query()->findOrFail($comment->user_id);
             return json_encode(['success' => true, 'comments' => $comments]);
         } catch (\Exception $e) {
             return json_encode(['success' => false, 'errors' => ['Error' => [$e->getMessage()]]]);

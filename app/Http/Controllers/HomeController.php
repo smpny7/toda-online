@@ -20,8 +20,8 @@ class HomeController extends Controller
         $attendance = User::query()->findOrFail(Auth::id())->attendances;
         $watch_next_videos = Video::orderBy('id', 'ASC')->take(3)->get();
         foreach ($watch_next_videos as $video) {
-            if (isset($video->path)) {
-                $media = FFMpeg::fromDisk('local')->open('public/' . $video->path);
+            if (isset($video->file_path)) {
+                $media = FFMpeg::fromDisk('local')->open('public/' . $video->file_path);
                 $video->duration = $media->getDurationInSeconds();
                 $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
             }
