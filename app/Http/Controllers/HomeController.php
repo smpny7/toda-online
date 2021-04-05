@@ -38,11 +38,11 @@ class HomeController extends Controller
     {
         $keyword = $request->input('keyword');
 
-        $videos = Video::query()
+        $videos = isset($keyword) ? Video::query()
             ->where('chapter', 'LIKE', "%{$keyword}%")
             ->orWhere('section', 'LIKE', "%{$keyword}%")
             ->orWhere('title', 'LIKE', "%{$keyword}%")
-            ->get();
+            ->get() : new Video();
 
         return view('home.search')
             ->with('videos', $videos->where('active', true))

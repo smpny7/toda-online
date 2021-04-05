@@ -1,17 +1,19 @@
-<div class="bg-white col-span-1 mb-1 sm:mb-2 px-7 py-7 relative rounded-xl shadow-md">
-    <div class="flex">
-        <h3 class="flex-grow font-bold pl-2 text-gray-800 text-2xl tracking-wider">{{ $video->title }}</h3>
-        <form class="h-7 ml-3 mt-1 relative w-7 watch_later" onchange="switchBookmark({{ $video->id }})"
-              action="{{ route('switchBookmark', ['video_id' => $video->id]) }}" method="POST">
-            <input id="bookmark_{{ $video->id }}" type="checkbox" class="absolute h-full opacity-0 w-full"
-                   @if($video->isBookmarked()) checked @endif>
-            <label for="bookmark_{{ $video->id }}" style="background-size: 1.75rem"
-                   class="bg-bookmark selected-sibling:bg-bookmark-f bg-no-repeat bg-left-top h-full inline-block w-full"></label>
-        </form>
+<a href="{{ route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]) }}"
+   class="block w-full mt-6 mx-auto shadow-lg rounded-2xl overflow-hidden transition duration-500 transform hover:shadow-xl">
+    <div class="flex items-end justify-end h-48 w-full bg-cover bg-center"
+         style="background-image: url({{ $video->getThumbnailPath() }})">
+        <button
+            class="p-3 rounded-full bg-themeColor text-white mx-5 -mb-4 focus:outline-none transition duration-500 transform hover:scale-105 hover:shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" fill="white"
+                 width="16" height="16" viewBox="0 0 163.861 163.861">
+                <path
+                    d="M34.857,3.613C20.084-4.861,8.107,2.081,8.107,19.106v125.637c0,17.042,11.977,23.975,26.75,15.509L144.67,97.275 c14.778-8.477,14.778-22.211,0-30.686L34.857,3.613z"/>
+            </svg>
+        </button>
     </div>
-    <div class="ml-1 mt-5">
-        <img src="{{ $video->getThumbnailPath() }}" class="rounded-xl shadow-xl" alt="{{ $video->title }}">
+    <div class="px-5 py-3">
+        <h3 class="text-gray-700 uppercase">{{ $video->section . ' ' . $video->title }}</h3>
+        <span
+            class="text-gray-500 text-sm mt-2">{{ $video->getVideoDuration() }}</span>
     </div>
-    <a class="@if($video->isWatched()) bg-gray-200 @else bg-themeColor @endif font-bold h-11 inline-block mt-7 pt-3 rounded-lg shadow-md text-center text-sm text-white transition duration-500 transform hover:scale-102 tracking-widest w-full"
-       href="{{ route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]) }}">視聴</a>
-</div>
+</a>
