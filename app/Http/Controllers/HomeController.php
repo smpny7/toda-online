@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notice;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -17,12 +18,20 @@ class HomeController extends Controller
     {
         $attendance = User::query()->findOrFail(Auth::id())->attendances;
         $classes = array_map(array($this, 'getDegreeOfLearning'), array_keys(config('const.CLASS')));
+        $notices = Notice::query()->orderByDesc('updated_at')->paginate(5);
         $videos = User::query()->findOrFail(Auth::id())->getBookmarkedVideos()->take(3)->get();
 
         return view('home.index')
             ->with('attendance', $attendance)
             ->with('classes', $classes)
+            ->with('notices', $notices)
             ->with('videos', $videos);
+    }
+
+    public function notice(): View
+    {
+        $notices = Notice::query()->get();
+        return view('home.notice')->with('notices', $notices);
     }
 
     public function search(Request $request): View
@@ -52,7 +61,7 @@ class HomeController extends Controller
      * @param $class_key
      * @return Int
      */
-    private function getDegreeOfLearning($class_key): Int
+    private function getDegreeOfLearning($class_key): int
     {
         $total = 0;
         $watched = 0;
@@ -62,6 +71,6 @@ class HomeController extends Controller
             $total++;
         }
 
-        return $total == 0 ? 0 : (int) round($watched * 100 / $total);
+        return $total == 0 ? 0 : (int)round($watched * 100 / $total);
     }
 }

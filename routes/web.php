@@ -27,6 +27,7 @@ Route::resource('share', ShareController::class)->only('show');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/notice', [HomeController::class, 'notice'])->name('notice');
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::get('/watchList', [HomeController::class, 'watchList'])->name('watchList');
 

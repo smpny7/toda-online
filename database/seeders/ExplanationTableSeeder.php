@@ -7,7 +7,7 @@ use SplFileObject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class  ExplanationsTableSeeder extends Seeder
+class  ExplanationTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
