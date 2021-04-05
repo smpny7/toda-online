@@ -54,7 +54,7 @@
             </div>
 
             <button type="submit"
-                    class="w-full block bg-themeColor text-white font-semibold rounded-lg px-4 py-3 mt-8">
+                    class="w-full block bg-themeColor text-white font-semibold rounded-lg px-4 py-3 mt-8 focus:outline-none">
                 {{ __('Login') }}
             </button>
         </form>
