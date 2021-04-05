@@ -10,22 +10,20 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                themeColor: '#FF9113',
+                themeColor: '#FF9113'
             },
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans]
             },
             fontSize: {
-                'xxs': '.5rem',
-            },
-            height: {
-                113: '28.25rem',
-                120: '30rem',
-                150: '37.5rem',
+                'xxs': '.5rem'
             },
             scale: {
-                102: '1.02',
+                102: '1.02'
             },
+            screens: {
+                '2xl': '1536px',
+            }
         },
     },
 

@@ -16,7 +16,6 @@ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 /**
  * App\Models\Video
  *
- * @property string path
  * @property int $id
  * @property string $class
  * @property string $chapter

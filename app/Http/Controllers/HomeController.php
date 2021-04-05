@@ -7,8 +7,6 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class HomeController extends Controller
 {
@@ -18,18 +16,13 @@ class HomeController extends Controller
     public function index(): View
     {
         $attendance = User::query()->findOrFail(Auth::id())->attendances;
-        $watch_next_videos = Video::orderBy('id', 'ASC')->take(3)->get();
-        foreach ($watch_next_videos as $video) {
-            if (isset($video->file_path)) {
-                $media = FFMpeg::fromDisk('local')->open('public/' . $video->file_path);
-                $video->duration = $media->getDurationInSeconds();
-                $video->thumbnail = Storage::disk('local')->url('thumbnail/' . $video->id . '.jpg');
-            }
-        }
+        $classes = array_map(array($this, 'getDegreeOfLearning'), array_keys(config('const.CLASS')));
+        $videos = User::query()->findOrFail(Auth::id())->getBookmarkedVideos()->take(3)->get();
 
         return view('home.index')
             ->with('attendance', $attendance)
-            ->with('watch_next_videos', $watch_next_videos);
+            ->with('classes', $classes)
+            ->with('videos', $videos);
     }
 
     public function search(Request $request): View
@@ -53,5 +46,22 @@ class HomeController extends Controller
 
         return view('home.watchList')
             ->with('videos', $videos);
+    }
+
+    /**
+     * @param $class_key
+     * @return Int
+     */
+    private function getDegreeOfLearning($class_key): Int
+    {
+        $total = 0;
+        $watched = 0;
+        $videos = Video::query()->where('class_key', $class_key)->get();
+        foreach ($videos as $video) {
+            if ($video->isWatched()) $watched++;
+            $total++;
+        }
+
+        return $total == 0 ? 0 : (int) round($watched * 100 / $total);
     }
 }
