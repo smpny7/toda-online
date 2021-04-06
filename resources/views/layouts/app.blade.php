@@ -21,7 +21,7 @@
 </head>
 
 <header class="bg-white h-16 fixed xl:hidden shadow top-0 w-full z-40">
-    <a href="{{ route('home') }}" class="block ml-3 mt-2 px-2">
+    <a href="{{ route('home') }}" class="inline-block ml-3 mt-2 px-2">
         <x-jet-application-mark/>
         <h1 class="inline-block font-semibold text-lg tracking-wider ml-2 relative top-0.5">
             戸田塾オンライン</h1>
