@@ -6,7 +6,7 @@
                 <div class="grid md:grid-cols-2 2xl:grid-cols-3 gap-8">
                     @foreach(config('const.CLASS') as $class_key => $class)
                         @if($attendance->$class_key)
-                            <div class="flex items-center flex-wrap mb-3 px-10 bg-white shadow-xl rounded-2xl h-24">
+                            <a href="{{ route('class', ['class_key' => $class_key]) }}" class="flex items-center flex-wrap mb-3 px-10 bg-white shadow-xl rounded-2xl h-24">
                                 <div
                                     class="flex items-center justify-center -m-6 overflow-hidden bg-white rounded-full">
                                     <svg class="w-32 h-32 transform translate-x-1 translate-y-1" aria-hidden="true">
@@ -39,7 +39,7 @@
                                 <p class="ml-10 font-medium text-gray-600 tracking-wide sm:text-xl">{{ $class }}</p>
                                 <span
                                     class="ml-auto text-md tracking-wider text-themeColor">受講中</span>
-                            </div>
+                            </a>
                         @endif
                     @endforeach
                 </div>
