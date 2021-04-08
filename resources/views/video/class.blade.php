@@ -11,10 +11,12 @@
                         </div>
                         <div class="inline-block ml-1 mt-3">
                             @foreach($video->subtitles as $subtitle)
-                                <li class="list-none text-sm text-gray-500 tracking-wider">
-                                    <span class="font-bold mr-1">・</span>
-                                    <span>{{ $subtitle->section }}</span>
-                                </li>
+                                @if($loop->iteration < 8)
+                                    <li class="list-none text-sm text-gray-500 tracking-wider">
+                                        <span class="font-bold mr-1">・</span>
+                                        <span>{{ $subtitle->section }}</span>
+                                    </li>
+                                @endif
                             @endforeach
                         </div>
                         <img
