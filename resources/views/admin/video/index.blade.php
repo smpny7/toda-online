@@ -1,23 +1,3 @@
-{{--<x-app-layout>--}}
-{{--    <div class="bg-repeat py-12" style="background-image: url({{ asset('img/home-background.png') }})">--}}
-{{--        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">--}}
-{{--            <table>--}}
-{{--                @foreach($videos as $video)--}}
-{{--                    <tr>--}}
-{{--                        <td class="pr-12">{{ $video->class }}</td>--}}
-{{--                        <td>{{ $video->chapter }}</td>--}}
-{{--                        <td class="pr-4">{{ $video->title }}</td>--}}
-{{--                        <td class="pr-4">--}}
-{{--                            <a href="{{ route('show', ['class_key' => $video->class_key, 'chapter_key' => $video->chapter_key, 'section_key' => $video->section_key, 'video_id' => $video->video_id]) }}"--}}
-{{--                               class="text-themeColor">見る</a></td>--}}
-{{--                        <td><a href="{{ route('admin.share.create', ['video_id' => $video->id]) }}" class="text-themeColor">共有リンク生成</a></td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
-{{--            </table>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</x-app-layout>--}}
-
 <x-app-layout>
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-8">
@@ -31,14 +11,14 @@
             <div class="bg-white shadow-md rounded my-6">
                 <table class="min-w-max w-full table-auto">
                     <thead>
-                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left hidden lg:table-cell">教科</th>
-                        <th class="py-3 px-6 text-left hidden md:table-cell">章</th>
-                        <th class="py-3 px-6 text-left">節</th>
-                        <th class="py-3 px-6 text-left">タイトル</th>
-                        <th class="py-3 px-6 text-center hidden sm:table-cell">状態</th>
-                        <th class="py-3 px-6 text-center">その他</th>
-                    </tr>
+                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-3 px-6 text-left hidden lg:table-cell">教科</th>
+                            <th class="py-3 px-6 text-left hidden md:table-cell">章</th>
+                            <th class="py-3 px-6 text-left">節</th>
+                            <th class="py-3 px-6 text-left">タイトル</th>
+                            <th class="py-3 px-6 text-center hidden sm:table-cell">状態</th>
+                            <th class="py-3 px-6 text-center">その他</th>
+                        </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm font-light">
                     @foreach($videos as $video)

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShareController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideosController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckAttendance;
@@ -39,10 +40,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Admin
     Route::prefix('admin')->name('admin.')->middleware([CheckAdmin::class])->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
-        Route::get('/student', [AdminController::class, 'student'])->name('student');
-        Route::get('/student/{id}', [AdminController::class, 'studentDetail'])->name('studentDetail');
         Route::get('/video', [AdminController::class, 'video'])->name('video');
 
+        // TODO: student resource 制限
+        Route::resource('student', UserController::class);
         Route::resource('share', ShareController::class)->except('show');
 
         Route::post('/createVideoThumbnail', [AdminController::class, 'createVideoThumbnail'])->name('createVideoThumbnail');

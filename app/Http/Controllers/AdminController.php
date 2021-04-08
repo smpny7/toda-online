@@ -4,21 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Video;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('admin.index');
-    }
-
-    public function student()
-    {
-        $students = User::query()->get();
-        return view('admin.student')
-            ->with('students', $students);
     }
 
     public function studentDetail($id)
@@ -28,11 +22,10 @@ class AdminController extends Controller
             ->with('student', $student);
     }
 
-    public function video()
+    public function video(): View
     {
         $videos = Video::query()->get();
-        return view('admin.video.index')
-            ->with('videos', $videos);
+        return view('admin.video.index')->with('videos', $videos);
     }
 
     public function createVideoThumbnail()
