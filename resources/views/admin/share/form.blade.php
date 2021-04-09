@@ -2,15 +2,15 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <form method="POST"
-                  action="@if($route == 'create') {{ route('admin.share.store', ['video_id' => $video->id]) }} @elseif($route == 'edit') {{ route('admin.share.update', ['share' => $share->id]) }} @endif">
-                @if($route == 'edit') @method('PUT') @endif
+                  action="@if($mode == 'create') {{ route('admin.share.store', ['video_id' => $video->id]) }} @elseif($mode == 'edit') {{ route('admin.share.update', ['share' => $share->id]) }} @endif">
+                @if($mode == 'edit') @method('PUT') @endif
                 @csrf
                 <div
                     class='flex max-w-sm w-full h-full justify-center bg-white shadow-md rounded-2xl overflow-hidden mx-auto flex flex-col px-12 py-10'>
                     <h3 class="text-2xl font-bold mb-4">
-                        @if($route == 'create')
+                        @if($mode == 'create')
                             共有を作成
-                        @elseif($route == 'edit')
+                        @elseif($mode == 'edit')
                             共有を編集
                         @endif
                     </h3>
@@ -48,9 +48,9 @@
 
                     <button class="block bg-themeColor font-bold h-10 text-white tracking-widest rounded-xl mt-8"
                             type="submit">
-                        @if($route == 'create')
+                        @if($mode == 'create')
                             作成
-                        @elseif($route == 'edit')
+                        @elseif($mode == 'edit')
                             保存
                         @endif
                     </button>

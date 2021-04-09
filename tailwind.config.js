@@ -13,7 +13,7 @@ module.exports = {
                 themeColor: '#FF9113'
             },
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans]
+                sans: ['Nunito', '"M PLUS Rounded 1c"', ...defaultTheme.fontFamily.sans]
             },
             fontSize: {
                 'xxs': '.5rem'
@@ -36,6 +36,7 @@ module.exports = {
 
     plugins: [
         require('@tailwindcss/ui'),
+        require('@tailwindcss/custom-forms'),
         function ({addUtilities}) {
             const newUtilities = {
                 ".text-shadow": {

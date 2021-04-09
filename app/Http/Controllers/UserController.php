@@ -51,18 +51,23 @@ class UserController extends Controller
     public function show($id): View
     {
         $student = User::query()->findOrFail($id);
-        return view('admin.student.form')->with('student', $student);
+        return view('admin.student.form')
+            ->with('student', $student)
+            ->with('mode', 'show');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return View
      */
-    public function edit($id)
+    public function edit($id): View
     {
-        //
+        $student = User::query()->findOrFail($id);
+        return view('admin.student.form')
+            ->with('student', $student)
+            ->with('mode', 'edit');
     }
 
     /**
@@ -74,13 +79,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id): View
     {
+        $user = User::query()->findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->grade = $request->grade;
+        $user->save();
+
         $attendance = Attendance::query()->findOrFail($id);
         foreach (config('const.CLASS') as $class_key => $class)
             $attendance->$class_key = $request->$class_key == 'on';
         $attendance->save();
 
-        $students = User::query()->get();
-        return view('admin.student.index')->with('students', $students);
+        $student = User::query()->findOrFail($id);
+        return view('admin.student.form')
+            ->with('student', $student)
+            ->with('mode', 'show');
     }
 
     /**

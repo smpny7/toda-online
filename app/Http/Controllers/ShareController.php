@@ -34,7 +34,7 @@ class ShareController extends Controller
 
         return view('admin.share.form')
             ->with('video', $video)
-            ->with('route', 'create');
+            ->with('mode', 'create');
     }
 
     /**
@@ -97,7 +97,7 @@ class ShareController extends Controller
         return view('admin.share.form')
             ->with('share', $share)
             ->with('video', $video)
-            ->with('route', 'edit');
+            ->with('mode', 'edit');
     }
 
     /**
