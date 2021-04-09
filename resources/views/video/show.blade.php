@@ -36,7 +36,8 @@
 
                 <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
 
-                <div class="sm:bg-white grid grid-cols-12 text-sm sm:text-base sm:mt-7 px-1 py-6 sm:rounded-3xl sm:shadow-md">
+                <div
+                    class="sm:bg-white grid grid-cols-12 text-sm sm:text-base sm:mt-7 px-1 py-6 sm:rounded-3xl sm:shadow-md">
                     <div class="col-span-3 sm:col-span-2">
                         <p class="pt-1 text-center">
                             <span
@@ -75,7 +76,8 @@
                                 <img
                                     src="@if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) {{ asset('img/eye.png') }} @else {{ asset('img/eye-off.png') }} @endif"
                                     class="align-middle inline-block ml-5 w-5" alt="Eye">
-                                <span class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm sm:text-base">
+                                <span
+                                    class="align-middle font-semibold inline-block ml-2 text-gray-500 text-sm sm:text-base">
                                     @if(\Illuminate\Support\Facades\Auth::check() && $video->isWatched()) 視聴済み @else
                                         未視聴 @endif
                                 </span>
@@ -163,6 +165,9 @@
                 document.getElementById('video').addEventListener('timeupdate', function () {
                     createHistory();
                 }, {once: true});
+
+                const player = videojs('video');
+                player.on('play', () => createHistory());
             });
 
             function hiddenAlert() {
