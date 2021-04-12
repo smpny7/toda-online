@@ -68,7 +68,6 @@
                             @endif
                         </div>
                     </div>
-                    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4 mt-16 sm:mt-12 sm:px-12">
                         @csrf
                         @method('PUT')
