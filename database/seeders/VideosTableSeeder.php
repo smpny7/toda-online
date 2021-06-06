@@ -19,6 +19,7 @@ class VideosTableSeeder extends Seeder
         foreach ([
                      'math1' => '数学 I',
                      'math2' => '数学 Ⅱ',
+                     'mathA' => '数学 A',
                  ] as $class_key => $class) {
             $file = new SplFileObject('database/csv/' . $class_key . '.csv');
             $file->setFlags(
