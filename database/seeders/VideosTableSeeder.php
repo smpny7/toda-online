@@ -20,6 +20,7 @@ class VideosTableSeeder extends Seeder
                      'math1' => '数学 I',
                      'math2' => '数学 Ⅱ',
                      'mathA' => '数学 A',
+                     'mathB' => '数学 B',
                  ] as $class_key => $class) {
             $file = new SplFileObject('database/csv/' . $class_key . '.csv');
             $file->setFlags(
