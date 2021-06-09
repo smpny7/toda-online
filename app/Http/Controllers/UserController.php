@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -24,22 +25,37 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.student.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function store(Request $request)
+    public function store(Request $request): View
     {
-        //
+        $user = User::query()->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'grade' => $request->grade,
+        ]);
+
+        $attendance = new Attendance();
+        $attendance->user_id = $user->id;
+        foreach (config('const.CLASS') as $class_key => $class)
+            $attendance->$class_key = $request->$class_key == 'on';
+        $attendance->save();
+
+        $students = User::query()->get();
+        return view('admin.student.index')
+            ->with('students', $students);
     }
 
     /**

@@ -44,6 +44,7 @@ class Attendance extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'math1',
         'math2',
         'math3',
